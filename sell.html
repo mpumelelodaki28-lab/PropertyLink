@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>List Your Property | PropertyLink</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "DM Sans", sans-serif;
+            background: #f8f7f3;
+            color: #20231f;
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        input,
+        select,
+        textarea,
+        button {
+            font-family: inherit;
+        }
+
+        /* NAVIGATION */
+
+        .navbar {
+            height: 82px;
+            background: #f8f7f3;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 6%;
+            border-bottom: 1px solid #e7e5df;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+
+        .logo span {
+            color: #68755a;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            font-size: 14px;
+            font-weight: 500;
+            color: #3e413b;
+        }
+
+        .nav-links a:hover {
+            color: #68755a;
+        }
+
+        .nav-button {
+            background: #68755a;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        /* HERO */
+
+        .hero {
+            background: #242922;
+            color: white;
+            padding: 85px 6%;
+        }
+
+        .hero-inner {
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        .small-heading {
+            color: #aeb8a3;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+        }
+
+        .hero h1 {
+            font-family: "Playfair Display", serif;
+            font-size: clamp(45px, 7vw, 76px);
+            line-height: 1;
+            font-weight: 500;
+            max-width: 800px;
+        }
+
+        .hero h1 em {
+            color: #aeb8a3;
+            font-style: italic;
+        }
+
+        .hero p {
+            color: #c8cbc3;
+            max-width: 620px;
+            margin-top: 25px;
+            font-size: 17px;
+        }
+
+        /* FORM AREA */
+
+        .form-section {
+            padding: 70px 6%;
+        }
+
+        .form-container {
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        .form-card {
+            background: white;
+            border: 1px solid #e2e0d9;
+            padding: 40px;
+            margin-bottom: 25px;
+        }
+
+        .form-card h2 {
+            font-family: "Playfair Display", serif;
+            font-size: 32px;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .form-card-description {
+            color: #777a73;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+            margin-bottom: 8px;
+            color: #555851;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            border: 1px solid #dcdad3;
+            background: #faf9f6;
+            padding: 14px;
+            outline: none;
+            font-size: 14px;
+            color: #20231f;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #68755a;
+        }
+
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        /* PHOTOS */
+
+        .photo-upload {
+            border: 2px dashed #d5d3cc;
+            background: #faf9f6;
+            padding: 45px 25px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .photo-upload:hover {
+            border-color: #68755a;
+        }
+
+        .photo-upload-icon {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .photo-upload h3 {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .photo-upload p {
+            font-size: 13px;
+            color: #85877f;
+        }
+
+        .photo-upload input {
+            display: none;
+        }
+
+        #photoPreview {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .preview-image {
+            height: 130px;
+            width: 100%;
+            object-fit: cover;
+            border: 1px solid #ddd;
+        }
+
+        /* SUBMIT */
+
+        .submit-area {
+            text-align: center;
+            padding: 20px 0 50px;
+        }
+
+        .publish-button {
+            background: #68755a;
+            color: white;
+            border: none;
+            padding: 16px 35px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .publish-button:hover {
+            background: #566249;
+        }
+
+        .submit-note {
+            margin-top: 15px;
+            color: #85877f;
+            font-size: 12px;
+        }
+
+        /* FOOTER */
+
+        footer {
+            background: #242922;
+            color: white;
+            padding: 50px 6% 25px;
+        }
+
+        .footer-inner {
+            max-width: 1100px;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            gap: 40px;
+        }
+
+        .footer-brand p {
+            color: #bfc3bb;
+            max-width: 350px;
+            margin-top: 12px;
+            font-size: 13px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .footer-links a {
+            color: #c8cbc3;
+            font-size: 13px;
+        }
+
+        .footer-bottom {
+            max-width: 1100px;
+            margin: 40px auto 0;
+            border-top: 1px solid #444941;
+            padding-top: 18px;
+            color: #9da198;
+            font-size: 12px;
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 750px) {
+
+            .navbar {
+                padding: 0 5%;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero {
+                padding: 60px 5%;
+            }
+
+            .form-section {
+                padding: 45px 5%;
+            }
+
+            .form-card {
+                padding: 25px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group.full {
+                grid-column: auto;
+            }
+
+            #photoPreview {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .footer-inner {
+                flex-direction: column;
+            }
+
+            .footer-links {
+                flex-wrap: wrap;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- NAVIGATION -->
+
+    <nav class="navbar">
+
+        <a href="index.html" class="logo">
+            Property<span>Link</span>
+        </a>
+
+        <div class="nav-links">
+
+            <a href="properties.html">
+                Buy
+            </a>
+
+            <a href="properties.html">
+                Rent
+            </a>
+
+            <a href="sell.html">
+                Sell
+            </a>
+
+            <a href="index.html#agents">
+                Find an Agent
+            </a>
+
+        </div>
+
+        <a href="properties.html" class="nav-button">
+            Find Property
+        </a>
+
+    </nav>
+
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+        <div class="hero-inner">
+
+            <div class="small-heading">
+                Property owners
+            </div>
+
+            <h1>
+                Put your property<br>
+                on the <em>market.</em>
+            </h1>
+
+            <p>
+                Create a PropertyLink listing and connect your
+                property with people looking for their next home,
+                investment or business location.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- FORM -->
+
+    <main class="form-section">
+
+        <div class="form-container">
+
+
+            <!-- PROPERTY INFORMATION -->
+
+            <section class="form-card">
+
+                <h2>
+                    Property information
+                </h2>
+
+                <p class="form-card-description">
+                    Tell us about the property you want to list.
+                </p>
+
+
+                <div class="form-grid">
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Listing type
+                        </label>
+
+                        <select id="listingType">
+
+                            <option value="">
+                                Select
+                            </option>
+
+                            <option value="sale">
+                                For Sale
+                            </option>
+
+                            <option value="rent">
+                                For Rent
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Property type
+                        </label>
+
+                        <select id="propertyType">
+
+                            <option value="">
+                                Select
+                            </option>
+
+                            <option value="house">
+                                House
+                            </option>
+
+                            <option value="apartment">
+                                Apartment
+                            </option>
+
+                            <option value="townhouse">
+                                Townhouse
+                            </option>
+
+                            <option value="land">
+                                Land
+                            </option>
+
+                            <option value="commercial">
+                                Commercial
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group full">
+
+                        <label>
+                            Property title
+                        </label>
+
+                        <input
+                            type="text"
+                            id="propertyTitle"
+                            placeholder="Example: Modern 3 Bedroom Family Home"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Province
+                        </label>
+
+                        <select id="province">
+
+                            <option value="">
+                                Select province
+                            </option>
+
+                            <option>
+                                Gauteng
+                            </option>
+
+                            <option>
+                                Western Cape
+                            </option>
+
+                            <option>
+                                KwaZulu-Natal
+                            </option>
+
+                            <option>
+                                Eastern Cape
+                            </option>
+
+                            <option>
+                                Free State
+                            </option>
+
+                            <option>
+                                Limpopo
+                            </option>
+
+                            <option>
+                                Mpumalanga
+                            </option>
+
+                            <option>
+                                North West
+                            </option>
+
+                            <option>
+                                Northern Cape
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            City / Town
+                        </label>
+
+                        <input
+                            type="text"
+                            id="city"
+                            placeholder="Johannesburg"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group full">
+
+                        <label>
+                            Address
+                        </label>
+
+                        <input
+                            type="text"
+                            id="address"
+                            placeholder="Street address"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Price (R)
+                        </label>
+
+                        <input
+                            type="number"
+                            id="price"
+                            placeholder="1850000"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Property size (m²)
+                        </label>
+
+                        <input
+                            type="number"
+                            id="propertySize"
+                            placeholder="180"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Bedrooms
+                        </label>
+
+                        <input
+                            type="number"
+                            id="bedrooms"
+                            placeholder="3"
+                            min="0"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Bathrooms
+                        </label>
+
+                        <input
+                            type="number"
+                            id="bathrooms"
+                            placeholder="2"
+                            min="0"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group full">
+
+                        <label>
+                            Property description
+                        </label>
+
+                        <textarea
+                            id="description"
+                            placeholder="Describe the property, its features, location and anything a buyer or renter should know."
+                        ></textarea>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- PHOTOS -->
+
+            <section class="form-card">
+
+                <h2>
+                    Property photos
+                </h2>
+
+                <p class="form-card-description">
+                    Good photos help people understand your property.
+                </p>
+
+                <label class="photo-upload">
+
+                    <div class="photo-upload-icon">
+                        +
+                    </div>
+
+                    <h3>
+                        Add property photos
+                    </h3>
+
+                    <p>
+                        Click here to choose photos from your device.
+                    </p>
+
+                    <input
+                        type="file"
+                        id="propertyPhotos"
+                        accept="image/*"
+                        multiple
+                        onchange="previewPhotos()"
+                    >
+
+                </label>
+
+                <div id="photoPreview"></div>
+
+            </section>
+
+
+            <!-- CONTACT INFORMATION -->
+
+            <section class="form-card">
+
+                <h2>
+                    Your contact information
+                </h2>
+
+                <p class="form-card-description">
+                    Potential buyers or renters will use these details
+                    to contact you.
+                </p>
+
+
+                <div class="form-grid">
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Full name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="sellerName"
+                            placeholder="Your full name"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Phone number
+                        </label>
+
+                        <input
+                            type="tel"
+                            id="sellerPhone"
+                            placeholder="e.g. 071 234 5678"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group full">
+
+                        <label>
+                            Email address
+                        </label>
+
+                        <input
+                            type="email"
+                            id="sellerEmail"
+                            placeholder="you@example.com"
+                        >
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- PUBLISH -->
+
+            <div class="submit-area">
+
+                <button
+                    class="publish-button"
+                    onclick="publishProperty()"
+                >
+                    Publish Property Listing
+                </button>
+
+                <p class="submit-note">
+                    Your listing will be reviewed before it becomes
+                    publicly available.
+                </p>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <div class="footer-inner">
+
+            <div class="footer-brand">
+
+                <a href="index.html" class="logo">
+                    Property<span>Link</span>
+                </a>
+
+                <p>
+                    A modern property marketplace connecting
+                    people with homes, land and commercial
+                    opportunities across South Africa.
+                </p>
+
+            </div>
+
+
+            <div class="footer-links">
+
+                <a href="properties.html">
+                    Buy
+                </a>
+
+                <a href="properties.html">
+                    Rent
+                </a>
+
+                <a href="index.html#agents">
+                    Agents
+                </a>
+
+                <a href="index.html">
+                    Home
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="footer-bottom">
+
+            © 2026 PropertyLink. All rights reserved.
+
+        </div>
+
+    </footer>
+
+
+    <!-- JAVASCRIPT -->
+
+    <script>
+
+        function previewPhotos() {
+
+            const files =
+                document.getElementById("propertyPhotos").files;
+
+            const preview =
+                document.getElementById("photoPreview");
+
+            preview.innerHTML = "";
+
+            for (let i = 0; i < files.length; i++) {
+
+                const image =
+                    document.createElement("img");
+
+                image.className = "preview-image";
+
+                image.src =
+                    URL.createObjectURL(files[i]);
+
+                preview.appendChild(image);
+
+            }
+
+        }
+
+
+        function publishProperty() {
+
+            const listingType =
+                document.getElementById("listingType").value;
+
+            const propertyType =
+                document.getElementById("propertyType").value;
+
+            const title =
+                document.getElementById("propertyTitle").value;
+
+            const province =
+                document.getElementById("province").value;
+
+            const city =
+                document.getElementById("city").value;
+
+            const address =
+                document.getElementById("address").value;
+
+            const price =
+                document.getElementById("price").value;
+
+            const sellerName =
+                document.getElementById("sellerName").value;
+
+            const sellerPhone =
+                document.getElementById("sellerPhone").value;
+
+            const sellerEmail =
+                document.getElementById("sellerEmail").value;
+
+
+            if (
+                listingType === "" ||
+                propertyType === "" ||
+                title.trim() === "" ||
+                province === "" ||
+                city.trim() === "" ||
+                address.trim() === "" ||
+                price.trim() === "" ||
+                sellerName.trim() === "" ||
+                sellerPhone.trim() === "" ||
+                sellerEmail.trim() === ""
+            ) {
+
+                alert(
+                    "Please complete all required fields before publishing your property."
+                );
+
+                return;
+            }
+
+
+            alert(
+                "Property listing created successfully!\n\n" +
+                "Property: " + title +
+                "\nLocation: " + city + ", " + province +
+                "\nPrice: R" + price +
+                "\n\nThe next version of PropertyLink will save this listing to the marketplace."
+            );
+
+        }
+
+    </script>
+
+</body>
+</html>
