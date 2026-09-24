@@ -1,0 +1,1321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Properties | PropertyLink</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "DM Sans", sans-serif;
+            background: #f8f7f3;
+            color: #20231f;
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button,
+        input,
+        select {
+            font-family: inherit;
+        }
+
+        /* =========================
+           NAVIGATION
+        ========================= */
+
+        .navbar {
+            height: 82px;
+            background: #f8f7f3;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 6%;
+            border-bottom: 1px solid #e7e5df;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+
+        .logo span {
+            color: #68755a;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 34px;
+        }
+
+        .nav-links a {
+            font-size: 14px;
+            font-weight: 500;
+            color: #3e413b;
+        }
+
+        .nav-links a:hover {
+            color: #68755a;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .sign-in {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .list-button {
+            background: #68755a;
+            color: white;
+            padding: 12px 19px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .mobile-menu {
+            display: none;
+            border: none;
+            background: none;
+            font-size: 25px;
+            cursor: pointer;
+        }
+
+        /* =========================
+           PAGE HEADER
+        ========================= */
+
+        .page-header {
+            padding: 65px 6% 35px;
+        }
+
+        .page-header-inner {
+            max-width: 1380px;
+            margin: auto;
+        }
+
+        .small-heading {
+            color: #68755a;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .page-header h1 {
+            font-family: "Playfair Display", serif;
+            font-size: clamp(42px, 6vw, 70px);
+            line-height: 1;
+            font-weight: 500;
+        }
+
+        .page-header p {
+            color: #777a73;
+            margin-top: 15px;
+            max-width: 600px;
+        }
+
+        /* =========================
+           SEARCH BAR
+        ========================= */
+
+        .search-area {
+            padding: 0 6% 45px;
+        }
+
+        .search-box {
+            max-width: 1380px;
+            margin: auto;
+            background: white;
+            border: 1px solid #e2e0d9;
+            padding: 12px;
+            display: grid;
+            grid-template-columns: 150px 1fr 1fr 1fr 145px;
+            gap: 8px;
+            box-shadow: 0 15px 45px rgba(30, 35, 28, 0.06);
+        }
+
+        .search-field {
+            padding: 12px 15px;
+            border-right: 1px solid #e8e6df;
+        }
+
+        .search-field label {
+            display: block;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+            color: #85877f;
+            margin-bottom: 4px;
+        }
+
+        .search-field input,
+        .search-field select {
+            width: 100%;
+            border: none;
+            outline: none;
+            background: transparent;
+            color: #272a25;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .search-button {
+            border: none;
+            background: #68755a;
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .search-button:hover {
+            background: #566249;
+        }
+
+        /* =========================
+           RESULTS
+        ========================= */
+
+        .results-section {
+            padding: 20px 6% 100px;
+        }
+
+        .results-inner {
+            max-width: 1380px;
+            margin: auto;
+        }
+
+        .results-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 28px;
+        }
+
+        .results-count {
+            font-size: 14px;
+            color: #777a73;
+        }
+
+        .sort-select {
+            border: 1px solid #dddcd5;
+            background: white;
+            padding: 10px 13px;
+            font-size: 13px;
+            outline: none;
+        }
+
+        /* =========================
+           PROPERTY GRID
+        ========================= */
+
+        .property-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .property-card {
+            background: white;
+            border: 1px solid #e5e3dc;
+            overflow: hidden;
+            transition: 0.25s;
+            cursor: pointer;
+        }
+
+        .property-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 18px 45px rgba(25, 30, 25, 0.08);
+        }
+
+        .property-image {
+            height: 285px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .property-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: 0.4s;
+        }
+
+        .property-card:hover .property-image img {
+            transform: scale(1.04);
+        }
+
+        .property-status {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: white;
+            padding: 7px 11px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .heart {
+            position: absolute;
+            right: 15px;
+            top: 15px;
+            width: 35px;
+            height: 35px;
+            border: none;
+            border-radius: 50%;
+            background: white;
+            cursor: pointer;
+            font-size: 17px;
+            z-index: 5;
+        }
+
+        .property-info {
+            padding: 21px;
+        }
+
+        .property-price {
+            font-size: 21px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .property-name {
+            font-family: "Playfair Display", serif;
+            font-size: 21px;
+            margin-bottom: 4px;
+        }
+
+        .property-location {
+            color: #7b7e77;
+            font-size: 13px;
+            margin-bottom: 17px;
+        }
+
+        .property-details {
+            display: flex;
+            gap: 18px;
+            padding-top: 15px;
+            border-top: 1px solid #eceae4;
+            font-size: 12px;
+            color: #555851;
+        }
+
+        /* =========================
+           NO RESULTS
+        ========================= */
+
+        .no-results {
+            display: none;
+            background: white;
+            border: 1px solid #e5e3dc;
+            padding: 60px 25px;
+            text-align: center;
+        }
+
+        .no-results h2 {
+            font-family: "Playfair Display", serif;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .no-results p {
+            color: #777a73;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            background: #f8f7f3;
+            padding: 60px 6% 30px;
+            border-top: 1px solid #e1dfd8;
+        }
+
+        .footer-grid {
+            max-width: 1380px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 50px;
+            padding-bottom: 45px;
+        }
+
+        .footer-brand p {
+            color: #777a73;
+            max-width: 350px;
+            font-size: 14px;
+            margin-top: 15px;
+        }
+
+        .footer-column h4 {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 18px;
+        }
+
+        .footer-column a {
+            display: block;
+            color: #71746d;
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+
+        .footer-column a:hover {
+            color: #68755a;
+        }
+
+        .footer-bottom {
+            max-width: 1380px;
+            margin: auto;
+            border-top: 1px solid #e1dfd8;
+            padding-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            color: #898b85;
+            font-size: 12px;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 950px) {
+
+            .nav-links {
+                display: none;
+            }
+
+            .nav-actions {
+                display: none;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .search-box {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .search-field {
+                border-right: none;
+                border-bottom: 1px solid #e8e6df;
+            }
+
+            .search-button {
+                min-height: 55px;
+            }
+
+            .property-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .footer-grid {
+                grid-template-columns: 2fr 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 650px) {
+
+            .navbar {
+                height: 70px;
+                padding: 0 5%;
+            }
+
+            .page-header {
+                padding: 45px 5% 30px;
+            }
+
+            .search-area {
+                padding: 0 5% 35px;
+            }
+
+            .search-box {
+                grid-template-columns: 1fr;
+            }
+
+            .results-section {
+                padding: 15px 5% 70px;
+            }
+
+            .results-top {
+                display: block;
+            }
+
+            .sort-select {
+                margin-top: 15px;
+            }
+
+            .property-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .footer-brand {
+                grid-column: 1 / -1;
+            }
+
+            .footer-bottom {
+                display: block;
+            }
+
+            .footer-bottom p:last-child {
+                margin-top: 8px;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- =========================
+         NAVIGATION
+    ========================== -->
+
+    <nav class="navbar">
+
+        <a href="index.html" class="logo">
+            Property<span>Link</span>
+        </a>
+
+        <div class="nav-links">
+
+            <a href="properties.html">
+                Buy
+            </a>
+
+            <a href="properties.html">
+                Rent
+            </a>
+
+            <a href="index.html#sell">
+                Sell
+            </a>
+
+            <a href="index.html#agents">
+                Find an Agent
+            </a>
+
+        </div>
+
+        <div class="nav-actions">
+
+            <a href="#" class="sign-in">
+                Sign In
+            </a>
+
+            <button class="list-button" onclick="listProperty()">
+                List Your Property
+            </button>
+
+        </div>
+
+        <button class="mobile-menu" onclick="toggleMenu()">
+            ☰
+        </button>
+
+    </nav>
+
+
+    <!-- =========================
+         PAGE HEADER
+    ========================== -->
+
+    <section class="page-header">
+
+        <div class="page-header-inner">
+
+            <div class="small-heading">
+                PropertyLink
+            </div>
+
+            <h1>
+                Find your next property.
+            </h1>
+
+            <p>
+                Browse homes, apartments, townhouses, land and
+                commercial property across South Africa.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         SEARCH
+    ========================== -->
+
+    <section class="search-area">
+
+        <div class="search-box">
+
+            <div class="search-field">
+
+                <label>
+                    Looking for
+                </label>
+
+                <select id="searchPurpose">
+
+                    <option value="all">
+                        Buy or Rent
+                    </option>
+
+                    <option value="buy">
+                        Buy
+                    </option>
+
+                    <option value="rent">
+                        Rent
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="search-field">
+
+                <label>
+                    Location
+                </label>
+
+                <input
+                    type="text"
+                    id="searchLocation"
+                    placeholder="Johannesburg, Sandton..."
+                >
+
+            </div>
+
+
+            <div class="search-field">
+
+                <label>
+                    Property type
+                </label>
+
+                <select id="propertyType">
+
+                    <option value="any">
+                        Any property
+                    </option>
+
+                    <option value="house">
+                        House
+                    </option>
+
+                    <option value="apartment">
+                        Apartment
+                    </option>
+
+                    <option value="townhouse">
+                        Townhouse
+                    </option>
+
+                    <option value="land">
+                        Land
+                    </option>
+
+                    <option value="commercial">
+                        Commercial
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="search-field">
+
+                <label>
+                    Price
+                </label>
+
+                <select id="priceRange">
+
+                    <option value="any">
+                        Any price
+                    </option>
+
+                    <option value="under1">
+                        Under R1 million
+                    </option>
+
+                    <option value="1to3">
+                        R1m – R3m
+                    </option>
+
+                    <option value="3to5">
+                        R3m – R5m
+                    </option>
+
+                    <option value="over5">
+                        R5 million+
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <button
+                class="search-button"
+                onclick="filterProperties()"
+            >
+                Search
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         RESULTS
+    ========================== -->
+
+    <section class="results-section">
+
+        <div class="results-inner">
+
+            <div class="results-top">
+
+                <p class="results-count" id="resultsCount">
+                    3 properties found
+                </p>
+
+                <select class="sort-select" id="sortProperties" onchange="sortProperties()">
+
+                    <option value="default">
+                        Sort: Recommended
+                    </option>
+
+                    <option value="low">
+                        Price: Low to High
+                    </option>
+
+                    <option value="high">
+                        Price: High to Low
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="property-grid" id="propertyGrid">
+
+
+                <!-- PROPERTY 1 -->
+
+                <article
+                    class="property-card"
+                    data-purpose="buy"
+                    data-type="house"
+                    data-location="johannesburg"
+                    data-price="1850000"
+                    onclick="openProperty('property.html')"
+                >
+
+                    <div class="property-image">
+
+                        <img
+                            src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1000&q=80"
+                            alt="Modern family home"
+                        >
+
+                        <span class="property-status">
+                            For Sale
+                        </span>
+
+                        <button
+                            class="heart"
+                            onclick="saveProperty(event, this)"
+                        >
+                            ♡
+                        </button>
+
+                    </div>
+
+                    <div class="property-info">
+
+                        <div class="property-price">
+                            R1,850,000
+                        </div>
+
+                        <h3 class="property-name">
+                            Modern Family Home
+                        </h3>
+
+                        <p class="property-location">
+                            Johannesburg, Gauteng
+                        </p>
+
+                        <div class="property-details">
+
+                            <span>
+                                3 Beds
+                            </span>
+
+                            <span>
+                                2 Baths
+                            </span>
+
+                            <span>
+                                180 m²
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+
+                <!-- PROPERTY 2 -->
+
+                <article
+                    class="property-card"
+                    data-purpose="rent"
+                    data-type="apartment"
+                    data-location="sandton johannesburg"
+                    data-price="12500"
+                    onclick="openProperty('property.html')"
+                >
+
+                    <div class="property-image">
+
+                        <img
+                            src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1000&q=80"
+                            alt="Modern city apartment"
+                        >
+
+                        <span class="property-status">
+                            For Rent
+                        </span>
+
+                        <button
+                            class="heart"
+                            onclick="saveProperty(event, this)"
+                        >
+                            ♡
+                        </button>
+
+                    </div>
+
+                    <div class="property-info">
+
+                        <div class="property-price">
+                            R12,500 / month
+                        </div>
+
+                        <h3 class="property-name">
+                            Modern City Apartment
+                        </h3>
+
+                        <p class="property-location">
+                            Sandton, Johannesburg
+                        </p>
+
+                        <div class="property-details">
+
+                            <span>
+                                2 Beds
+                            </span>
+
+                            <span>
+                                2 Baths
+                            </span>
+
+                            <span>
+                                95 m²
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+
+                <!-- PROPERTY 3 -->
+
+                <article
+                    class="property-card"
+                    data-purpose="buy"
+                    data-type="townhouse"
+                    data-location="midrand gauteng"
+                    data-price="2450000"
+                    onclick="openProperty('property.html')"
+                >
+
+                    <div class="property-image">
+
+                        <img
+                            src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=1000&q=80"
+                            alt="Contemporary townhouse"
+                        >
+
+                        <span class="property-status">
+                            For Sale
+                        </span>
+
+                        <button
+                            class="heart"
+                            onclick="saveProperty(event, this)"
+                        >
+                            ♡
+                        </button>
+
+                    </div>
+
+                    <div class="property-info">
+
+                        <div class="property-price">
+                            R2,450,000
+                        </div>
+
+                        <h3 class="property-name">
+                            Contemporary Townhouse
+                        </h3>
+
+                        <p class="property-location">
+                            Midrand, Gauteng
+                        </p>
+
+                        <div class="property-details">
+
+                            <span>
+                                3 Beds
+                            </span>
+
+                            <span>
+                                2.5 Baths
+                            </span>
+
+                            <span>
+                                210 m²
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+
+            <div class="no-results" id="noResults">
+
+                <h2>
+                    No properties found
+                </h2>
+
+                <p>
+                    Try changing your search filters or location.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         FOOTER
+    ========================== -->
+
+    <footer>
+
+        <div class="footer-grid">
+
+            <div class="footer-brand">
+
+                <a href="index.html" class="logo">
+                    Property<span>Link</span>
+                </a>
+
+                <p>
+                    A modern property marketplace connecting
+                    people with homes, land and commercial
+                    opportunities across South Africa.
+                </p>
+
+            </div>
+
+
+            <div class="footer-column">
+
+                <h4>
+                    Explore
+                </h4>
+
+                <a href="properties.html">
+                    Buy Property
+                </a>
+
+                <a href="properties.html">
+                    Rent Property
+                </a>
+
+                <a href="properties.html">
+                    Land
+                </a>
+
+                <a href="properties.html">
+                    Commercial
+                </a>
+
+            </div>
+
+
+            <div class="footer-column">
+
+                <h4>
+                    Professionals
+                </h4>
+
+                <a href="index.html#sell">
+                    List Property
+                </a>
+
+                <a href="index.html#agents">
+                    Find an Agent
+                </a>
+
+                <a href="#">
+                    Agent Sign In
+                </a>
+
+            </div>
+
+
+            <div class="footer-column">
+
+                <h4>
+                    PropertyLink
+                </h4>
+
+                <a href="#">
+                    About
+                </a>
+
+                <a href="#">
+                    Contact
+                </a>
+
+                <a href="#">
+                    Privacy
+                </a>
+
+                <a href="#">
+                    Terms
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="footer-bottom">
+
+            <p>
+                © 2026 PropertyLink. All rights reserved.
+            </p>
+
+            <p>
+                Find. Connect. Move.
+            </p>
+
+        </div>
+
+    </footer>
+
+
+    <!-- =========================
+         JAVASCRIPT
+    ========================== -->
+
+    <script>
+
+        function filterProperties() {
+
+            const purpose =
+                document.getElementById("searchPurpose").value;
+
+            const location =
+                document.getElementById("searchLocation").value
+                .trim()
+                .toLowerCase();
+
+            const type =
+                document.getElementById("propertyType").value;
+
+            const price =
+                document.getElementById("priceRange").value;
+
+            const cards =
+                document.querySelectorAll(".property-card");
+
+            let visibleCount = 0;
+
+
+            cards.forEach(function(card) {
+
+                const cardPurpose =
+                    card.dataset.purpose;
+
+                const cardType =
+                    card.dataset.type;
+
+                const cardLocation =
+                    card.dataset.location;
+
+                const cardPrice =
+                    Number(card.dataset.price);
+
+
+                let show = true;
+
+
+                /* BUY / RENT */
+
+                if (
+                    purpose !== "all" &&
+                    cardPurpose !== purpose
+                ) {
+
+                    show = false;
+
+                }
+
+
+                /* LOCATION */
+
+                if (
+                    location !== "" &&
+                    !cardLocation.includes(location)
+                ) {
+
+                    show = false;
+
+                }
+
+
+                /* PROPERTY TYPE */
+
+                if (
+                    type !== "any" &&
+                    cardType !== type
+                ) {
+
+                    show = false;
+
+                }
+
+
+                /* PRICE */
+
+                if (price === "under1" && cardPrice >= 1000000) {
+
+                    show = false;
+
+                }
+
+                if (
+                    price === "1to3" &&
+                    (cardPrice < 1000000 || cardPrice > 3000000)
+                ) {
+
+                    show = false;
+
+                }
+
+                if (
+                    price === "3to5" &&
+                    (cardPrice < 3000000 || cardPrice > 5000000)
+                ) {
+
+                    show = false;
+
+                }
+
+                if (
+                    price === "over5" &&
+                    cardPrice < 5000000
+                ) {
+
+                    show = false;
+
+                }
+
+
+                if (show) {
+
+                    card.style.display = "block";
+                    visibleCount++;
+
+                } else {
+
+                    card.style.display = "none";
+
+                }
+
+            });
+
+
+            document.getElementById("resultsCount").textContent =
+                visibleCount + " properties found";
+
+
+            if (visibleCount === 0) {
+
+                document.getElementById("noResults").style.display =
+                    "block";
+
+            } else {
+
+                document.getElementById("noResults").style.display =
+                    "none";
+
+            }
+
+        }
+
+
+        function sortProperties() {
+
+            const grid =
+                document.getElementById("propertyGrid");
+
+            const cards =
+                Array.from(
+                    grid.querySelectorAll(".property-card")
+                );
+
+            const sort =
+                document.getElementById("sortProperties").value;
+
+
+            if (sort === "low") {
+
+                cards.sort(function(a, b) {
+
+                    return Number(a.dataset.price) -
+                           Number(b.dataset.price);
+
+                });
+
+            }
+
+
+            if (sort === "high") {
+
+                cards.sort(function(a, b) {
+
+                    return Number(b.dataset.price) -
+                           Number(a.dataset.price);
+
+                });
+
+            }
+
+
+            cards.forEach(function(card) {
+
+                grid.appendChild(card);
+
+            });
+
+        }
+
+
+        function openProperty(page) {
+
+            window.location.href = page;
+
+        }
+
+
+        function saveProperty(event, button) {
+
+            event.stopPropagation();
+
+
+            if (button.innerHTML === "♡") {
+
+                button.innerHTML = "♥";
+
+            } else {
+
+                button.innerHTML = "♡";
+
+            }
+
+        }
+
+
+        function listProperty() {
+
+            alert(
+                "Property listing will be available soon."
+            );
+
+        }
+
+
+        function toggleMenu() {
+
+            alert(
+                "Mobile navigation will be added in the next version."
+            );
+
+        }
+
+    </script>
+
+</body>
+</html>
