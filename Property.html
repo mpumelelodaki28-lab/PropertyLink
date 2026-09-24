@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Modern Family Home | PropertyLink</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap"
+    rel="stylesheet"
+>
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+    html {
+        scroll-behavior: smooth;
+    }
+    body {
+        font-family: "DM Sans", sans-serif;
+        background: #f8f7f3;
+        color: #20231f;
+        line-height: 1.6;
+    }
+    a {
+        text-decoration: none;
+        color: inherit;
+    }
+    button,
+    input,
+    textarea {
+        font-family: inherit;
+    }
+    /* =========================
+       NAVIGATION
+    ========================== */
+    .navbar {
+        height: 82px;
+        background: #f8f7f3;
+        border-bottom: 1px solid #e7e5df;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 6%;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+    .logo {
+        font-size: 25px;
+        font-weight: 700;
+        letter-spacing: -1px;
+    }
+    .logo span {
+        color: #68755a;
+    }
+    .nav-links {
+        display: flex;
+        gap: 34px;
+        align-items: center;
+    }
+    .nav-links a {
+        font-size: 14px;
+        font-weight: 500;
+        color: #3e413b;
+    }
+    .nav-links a:hover {
+        color: #68755a;
+    }
+    .nav-actions {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+    .sign-in {
+        font-size: 14px;
+        font-weight: 600;
+    }
+    .list-button {
+        background: #68755a;
+        color: white;
+        border: none;
+        padding: 12px 19px;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+    .mobile-menu {
+        display: none;
+        border: none;
+        background: none;
+        font-size: 25px;
+        cursor: pointer;
+    }
+    /* =========================
+       BREADCRUMB
+    ========================== */
+    .breadcrumb {
+        max-width: 1380px;
+        margin: auto;
+        padding: 30px 6% 15px;
+        color: #777a73;
+        font-size: 13px;
+    }
+    .breadcrumb a {
+        color: #68755a;
+        font-weight: 600;
+    }
+    /* =========================
+       PROPERTY HEADER
+    ========================== */
+    .property-header {
+        max-width: 1380px;
+        margin: auto;
+        padding: 15px 6% 30px;
+        display: flex;
+        justify-content: space-between;
+        gap: 30px;
+        align-items: end;
+    }
+    .status {
+        display: inline-block;
+        background: #68755a;
+        color: white;
+        padding: 7px 12px;
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 12px;
+    }
+    .property-header h1 {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(38px, 5vw, 62px);
+        line-height: 1;
+        font-weight: 500;
+    }
+    .property-location {
+        color: #777a73;
+        margin-top: 8px;
+        font-size: 15px;
+    }
+    .price {
+        font-size: 30px;
+        font-weight: 700;
+        white-space: nowrap;
+    }
+    /* =========================
+       PHOTO GALLERY
+    ========================== */
+    .gallery {
+        max-width: 1380px;
+        margin: auto;
+        padding: 0 6%;
+    }
+    .gallery-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr;
+        grid-template-rows: 250px 250px;
+        gap: 8px;
+    }
+    .gallery-item {
+        overflow: hidden;
+        position: relative;
+        background: #ddd;
+    }
+    .gallery-item:first-child {
+        grid-row: 1 / 3;
+    }
+    .gallery-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: 0.4s;
+    }
+    .gallery-item:hover img {
+        transform: scale(1.03);
+    }
+    .photo-count {
+        position: absolute;
+        right: 15px;
+        bottom: 15px;
+        background: rgba(255,255,255,0.94);
+        padding: 9px 13px;
+        font-size: 12px;
+        font-weight: 700;
+    }
+    /* =========================
+       MAIN CONTENT
+    ========================== */
+    .property-layout {
+        max-width: 1380px;
+        margin: auto;
+        padding: 65px 6% 90px;
+        display: grid;
+        grid-template-columns: 1.5fr 0.7fr;
+        gap: 70px;
+    }
+    /* =========================
+       PROPERTY DETAILS
+    ========================== */
+    .details {
+        display: flex;
+        gap: 45px;
+        border-top: 1px solid #dedcd5;
+        border-bottom: 1px solid #dedcd5;
+        padding: 22px 0;
+        margin-bottom: 45px;
+    }
+    .detail strong {
+        display: block;
+        font-size: 20px;
+        margin-bottom: 2px;
+    }
+    .detail span {
+        color: #777a73;
+        font-size: 12px;
+    }
+    /* =========================
+       DESCRIPTION
+    ========================== */
+    .content-section {
+        margin-bottom: 50px;
+    }
+    .content-section h2 {
+        font-family: "Playfair Display", serif;
+        font-size: 36px;
+        font-weight: 500;
+        margin-bottom: 18px;
+    }
+    .content-section p {
+        color: #62655e;
+        font-size: 15px;
+        line-height: 1.9;
+        max-width: 750px;
+    }
+    /* =========================
+       FEATURES
+    ========================== */
+    .features {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 14px;
+        max-width: 700px;
+    }
+    .feature {
+        background: white;
+        border: 1px solid #e5e3dc;
+        padding: 15px 18px;
+        font-size: 13px;
+    }
+    /* =========================
+       AGENT CARD
+    ========================== */
+    .agent-card {
+        background: white;
+        border: 1px solid #e2e0d9;
+        padding: 28px;
+        position: sticky;
+        top: 110px;
+    }
+    .agent-card h2 {
+        font-family: "Playfair Display", serif;
+        font-size: 28px;
+        font-weight: 500;
+        margin-bottom: 22px;
+    }
+    .agent-profile {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+        margin-bottom: 25px;
+    }
+    .agent-photo {
+        width: 68px;
+        height: 68px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+    .agent-profile h3 {
+        font-size: 16px;
+    }
+    .agent-profile p {
+        font-size: 12px;
+        color: #777a73;
+    }
+    .agent-info {
+        border-top: 1px solid #e7e5df;
+        padding-top: 20px;
+        margin-bottom: 20px;
+    }
+    .agent-info p {
+        font-size: 13px;
+        color: #62655e;
+        margin-bottom: 7px;
+    }
+    .contact-button {
+        width: 100%;
+        padding: 15px;
+        border: none;
+        background: #68755a;
+        color: white;
+        font-weight: 700;
+        cursor: pointer;
+        margin-bottom: 10px;
+    }
+    .viewing-button {
+        width: 100%;
+        padding: 15px;
+        border: 1px solid #68755a;
+        background: white;
+        color: #68755a;
+        font-weight: 700;
+        cursor: pointer;
+    }
+    .contact-button:hover {
+        background: #566249;
+    }
+    /* =========================
+       VIEWING FORM
+    ========================== */
+    .viewing-box {
+        display: none;
+        margin-top: 20px;
+        border-top: 1px solid #e5e3dc;
+        padding-top: 20px;
+    }
+    .viewing-box.active {
+        display: block;
+    }
+    .viewing-box input,
+    .viewing-box textarea {
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 10px;
+        border: 1px solid #dddcd5;
+        outline: none;
+        font-size: 13px;
+    }
+    .viewing-box textarea {
+        height: 90px;
+        resize: vertical;
+    }
+    .send-button {
+        width: 100%;
+        padding: 13px;
+        border: none;
+        background: #20231f;
+        color: white;
+        font-weight: 700;
+        cursor: pointer;
+    }
+    /* =========================
+       SIMILAR PROPERTIES
+    ========================== */
+    .similar-section {
+        background: #e8e9e1;
+        padding: 80px 6%;
+    }
+    .similar-inner {
+        max-width: 1380px;
+        margin: auto;
+    }
+    .similar-inner h2 {
+        font-family: "Playfair Display", serif;
+        font-size: 45px;
+        font-weight: 500;
+        margin-bottom: 35px;
+    }
+    .similar-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 22px;
+    }
+    .similar-card {
+        background: white;
+        overflow: hidden;
+    }
+    .similar-card img {
+        width: 100%;
+        height: 240px;
+        object-fit: cover;
+    }
+    .similar-info {
+        padding: 20px;
+    }
+    .similar-price {
+        font-weight: 700;
+        font-size: 20px;
+    }
+    .similar-name {
+        font-family: "Playfair Display", serif;
+        font-size: 20px;
+        margin-top: 4px;
+    }
+    .similar-location {
+        color: #777a73;
+        font-size: 13px;
+    }
+    /* =========================
+       FOOTER
+    ========================== */
+    footer {
+        background: #242922;
+        color: white;
+        padding: 60px 6% 30px;
+    }
+    .footer-grid {
+        max-width: 1380px;
+        margin: auto;
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr 1fr;
+        gap: 45px;
+    }
+    .footer-brand p {
+        color: #c4c7bf;
+        max-width: 350px;
+        margin-top: 15px;
+        font-size: 13px;
+    }
+    .footer-column h4 {
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 18px;
+    }
+    .footer-column a {
+        display: block;
+        color: #c4c7bf;
+        font-size: 13px;
+        margin-bottom: 10px;
+    }
+    .footer-bottom {
+        max-width: 1380px;
+        margin: 45px auto 0;
+        padding-top: 20px;
+        border-top: 1px solid #42463f;
+        color: #aeb1aa;
+        font-size: 12px;
+    }
+    /* =========================
+       MOBILE
+    ========================== */
+    @media (max-width: 900px) {
+        .nav-links,
+        .nav-actions {
+            display: none;
+        }
+        .mobile-menu {
+            display: block;
+        }
+        .gallery-grid {
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 300px 200px 200px;
+        }
+        .gallery-item:first-child {
+            grid-column: 1 / 3;
+            grid-row: 1;
+        }
+        .property-layout {
+            grid-template-columns: 1fr;
+        }
+        .agent-card {
+            position: static;
+        }
+        .similar-grid {
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+    @media (max-width: 600px) {
+        .navbar {
+            height: 70px;
+            padding: 0 5%;
+        }
+        .breadcrumb {
+            padding-left: 5%;
+            padding-right: 5%;
+        }
+        .property-header {
+            padding-left: 5%;
+            padding-right: 5%;
+            display: block;
+        }
+        .price {
+            margin-top: 20px;
+        }
+        .gallery {
+            padding: 0 5%;
+        }
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-template-rows: 300px 200px 200px 200px 200px;
+        }
+        .gallery-item:first-child {
+            grid-column: 1;
+            grid-row: 1;
+        }
+        .property-layout {
+            padding-left: 5%;
+            padding-right: 5%;
+        }
+        .details {
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .features {
+            grid-template-columns: 1fr;
+        }
+        .similar-section {
+            padding-left: 5%;
+            padding-right: 5%;
+        }
+        .similar-grid {
+            grid-template-columns: 1fr;
+        }
+        .footer-grid {
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+</style>
+</head>
+<body>
+<!-- =========================
+     NAVIGATION
+========================== -->
+<nav class="navbar">
+    <a href="index.html" class="logo">
+        Property<span>Link</span>
+    </a>
+    <div class="nav-links">
+        <a href="index.html#properties">
+            Buy
+        </a>
+        <a href="index.html#properties">
+            Rent
+        </a>
+        <a href="index.html#sell">
+            Sell
+        </a>
+        <a href="index.html#agents">
+            Find an Agent
+        </a>
+    </div>
+    <div class="nav-actions">
+        <a href="#" class="sign-in">
+            Sign In
+        </a>
+        <button
+            class="list-button"
+            onclick="listProperty()"
+        >
+            List Your Property
+        </button>
+    </div>
+    <button
+        class="mobile-menu"
+        onclick="mobileMenu()"
+    >
+        ☰
+    </button>
+</nav>
+<!-- =========================
+     BREADCRUMB
+========================== -->
+<div class="breadcrumb">
+    <a href="index.html">
+        Home
+    </a>
+    &nbsp; / &nbsp;
+    <a href="index.html#properties">
+        Properties
+    </a>
+    &nbsp; / &nbsp;
+    Johannesburg
+</div>
+<!-- =========================
+     PROPERTY HEADER
+========================== -->
+<section class="property-header">
+    <div>
+        <span class="status">
+            For Sale
+        </span>
+        <h1>
+            Modern Family Home
+        </h1>
+        <p class="property-location">
+            Johannesburg, Gauteng
+        </p>
+    </div>
+    <div class="price">
+        R1,850,000
+    </div>
+</section>
+<!-- =========================
+     GALLERY
+========================== -->
+<section class="gallery">
+    <div class="gallery-grid">
+        <div class="gallery-item">
+            <img
+                src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1400&q=85"
+                alt="Property exterior"
+            >
+            <div class="photo-count">
+                12 Photos
+            </div>
+        </div>
+        <div class="gallery-item">
+            <img
+                src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=900&q=80"
+                alt="Living room"
+            >
+        </div>
+        <div class="gallery-item">
+            <img
+                src="https://images.unsplash.com/photo-1600607688969-a5bfcd646154?auto=format&fit=crop&w=900&q=80"
+                alt="Kitchen"
+            >
+        </div>
+        <div class="gallery-item">
+            <img
+                src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=900&q=80"
+                alt="Bedroom"
+            >
+        </div>
+        <div class="gallery-item">
+            <img
+                src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=900&q=80"
+                alt="Garden"
+            >
+        </div>
+    </div>
+</section>
+<!-- =========================
+     PROPERTY INFORMATION
+========================== -->
+<section class="property-layout">
+    <div class="property-main">
+        <!-- DETAILS -->
+        <div class="details">
+            <div class="detail">
+                <strong>
+                    3
+                </strong>
+                <span>
+                    Bedrooms
+                </span>
+            </div>
+            <div class="detail">
+                <strong>
+                    2
+                </strong>
+                <span>
+                    Bathrooms
+                </span>
+            </div>
+            <div class="detail">
+                <strong>
+                    180 m²
+                </strong>
+                <span>
+                    Floor area
+                </span>
+            </div>
+            <div class="detail">
+                <strong>
+                    450 m²
+                </strong>
+                <span>
+                    Land size
+                </span>
+            </div>
+        </div>
+        <!-- DESCRIPTION -->
+        <div class="content-section">
+            <h2>
+                About this property
+            </h2>
+            <p>
+                Welcome to this modern family home in Johannesburg.
+                The property offers comfortable living spaces,
+                contemporary finishes and a practical layout designed
+                for everyday family life.
+            </p>
+            <br>
+            <p>
+                The home features a spacious living area, modern kitchen,
+                three bedrooms and two bathrooms. Outside, there is
+                additional space for entertaining and family activities.
+            </p>
+        </div>
+        <!-- FEATURES -->
+        <div class="content-section">
+            <h2>
+                Property features
+            </h2>
+            <div class="features">
+                <div class="feature">
+                    Modern kitchen
+                </div>
+                <div class="feature">
+                    Built-in cupboards
+                </div>
+                <div class="feature">
+                    Secure parking
+                </div>
+                <div class="feature">
+                    Private garden
+                </div>
+                <div class="feature">
+                    Security system
+                </div>
+                <div class="feature">
+                    Entertainment area
+                </div>
+                <div class="feature">
+                    Fibre ready
+                </div>
+                <div class="feature">
+                    Pet friendly
+                </div>
+            </div>
+        </div>
+        <!-- LOCATION -->
+        <div class="content-section">
+            <h2>
+                Location
+            </h2>
+            <p>
+                Johannesburg, Gauteng, South Africa
+            </p>
+        </div>
+    </div>
+    <!-- =========================
+         AGENT
+    ========================== -->
+    <aside class="agent-card">
+        <h2>
+            Interested in this property?
+        </h2>
+        <div class="agent-profile">
+            <img
+                class="agent-photo"
+                src="https://randomuser.me/api/portraits/men/32.jpg"
+                alt="Property agent"
+            >
+            <div>
+                <h3>
+                    Thabo Mokoena
+                </h3>
+                <p>
+                    Property Agent
+                </p>
+            </div>
+        </div>
+        <div class="agent-info">
+            <p>
+                Johannesburg, Gauteng
+            </p>
+            <p>
+                PropertyLink Agent
+            </p>
+        </div>
+        <button
+            class="contact-button"
+            onclick="contactAgent()"
+        >
+            Contact Agent
+        </button>
+        <button
+            class="viewing-button"
+            onclick="showViewingForm()"
+        >
+            Request a Viewing
+        </button>
+        <div
+            class="viewing-box"
+            id="viewingBox"
+        >
+            <input
+                type="text"
+                id="customerName"
+                placeholder="Your name"
+            >
+            <input
+                type="tel"
+                id="customerPhone"
+                placeholder="Phone number"
+            >
+            <input
+                type="email"
+                id="customerEmail"
+                placeholder="Email address"
+            >
+            <textarea
+                id="customerMessage"
+                placeholder="Tell the agent when you'd like to view the property."
+            ></textarea>
+            <button
+                class="send-button"
+                onclick="sendViewingRequest()"
+            >
+                Send Request
+            </button>
+        </div>
+    </aside>
+</section>
+<!-- =========================
+     SIMILAR PROPERTIES
+========================== -->
+<section class="similar-section">
+    <div class="similar-inner">
+        <div class="small-heading">
+            You may also like
+        </div>
+        <h2>
+            Similar properties
+        </h2>
+        <div class="similar-grid">
+            <a href="property.html" class="similar-card">
+                <img
+                    src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1000&q=80"
+                    alt="House"
+                >
+                <div class="similar-info">
+                    <div class="similar-price">
+                        R2,100,000
+                    </div>
+                    <div class="similar-name">
+                        Family Home
+                    </div>
+                    <div class="similar-location">
+                        Randburg, Johannesburg
+                    </div>
+                </div>
+            </a>
+            <a href="property.html" class="similar-card">
+                <img
+                    src="https://images.unsplash.com/photo-1600607688969-a5bfcd646154?auto=format&fit=crop&w=1000&q=80"
+                    alt="Apartment"
+                >
+                <div class="similar-info">
+                    <div class="similar-price">
+                        R1,450,000
+                    </div>
+                    <div class="similar-name">
+                        Modern Apartment
+                    </div>
+                    <div class="similar-location">
+                        Sandton, Johannesburg
+                    </div>
+                </div>
+            </a>
+            <a href="property.html" class="similar-card">
+                <img
+                    src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1000&q=80"
+                    alt="Townhouse"
+                >
+                <div class="similar-info">
+                    <div class="similar-price">
+                        R2,650,000
+                    </div>
+                    <div class="similar-name">
+                        Contemporary Townhouse
+                    </div>
+                    <div class="similar-location">
+                        Midrand, Gauteng
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</section>
+<!-- =========================
+     FOOTER
+========================== -->
+<footer>
+    <div class="footer-grid">
+        <div class="footer-brand">
+            <a href="index.html" class="logo">
+                Property<span>Link</span>
+            </a>
+            <p>
+                A modern property marketplace connecting
+                people with homes, land and commercial
+                opportunities across South Africa.
+            </p>
+        </div>
+        <div class="footer-column">
+            <h4>
+                Explore
+            </h4>
+            <a href="index.html#properties">
+                Buy
+            </a>
+            <a href="index.html#properties">
+                Rent
+            </a>
+            <a href="#">
+                Land
+            </a>
+            <a href="#">
+                Commercial
+            </a>
+        </div>
+        <div class="footer-column">
+            <h4>
+                Professionals
+            </h4>
+            <a href="index.html#sell">
+                List Property
+            </a>
+            <a href="index.html#agents">
+                Find an Agent
+            </a>
+        </div>
+        <div class="footer-column">
+            <h4>
+                Company
+            </h4>
+            <a href="#">
+                About
+            </a>
+            <a href="#">
+                Contact
+            </a>
+            <a href="#">
+                Privacy
+            </a>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        © 2026 PropertyLink. All rights reserved.
+    </div>
+</footer>
+<!-- =========================
+     JAVASCRIPT
+========================== -->
+<script>
+    function contactAgent() {
+        alert(
+            "Agent contact will be connected to the PropertyLink messaging system."
+        );
+    }
+    function showViewingForm() {
+        const form =
+            document.getElementById("viewingBox");
+        form.classList.toggle("active");
+    }
+    function sendViewingRequest() {
+        const name =
+            document.getElementById("customerName").value;
+        const phone =
+            document.getElementById("customerPhone").value;
+        const email =
+            document.getElementById("customerEmail").value;
+        if (
+            name.trim() === "" ||
+            phone.trim() === "" ||
+            email.trim() === ""
+        ) {
+            alert(
+                "Please complete your name, phone number and email."
+            );
+            return;
+        }
+        alert(
+            "Viewing request received.\n\n" +
+            "Thank you, " +
+            name +
+            ". The agent will be contacted through PropertyLink."
+        );
+    }
+    function listProperty() {
+        alert(
+            "The PropertyLink property listing system will be available soon."
+        );
+    }
+    function mobileMenu() {
+        alert(
+            "Mobile navigation will be added soon."
+        );
+    }
+</script>
+</body>
+</html>
