@@ -3,1097 +3,2270 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PropertyLink | Find Your Place</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<style>
-    * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-    }
-    html {
-        scroll-behavior: smooth;
-    }
-    body {
-        font-family: "DM Sans", sans-serif;
-        background: #f8f7f3;
-        color: #20231f;
-        line-height: 1.6;
-    }
-    a {
-        text-decoration: none;
-        color: inherit;
-    }
-    button,
-    input,
-    select {
-        font-family: inherit;
-    }
-    .navbar {
-        height: 82px;
-        background: #f8f7f3;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0 6%;
-        border-bottom: 1px solid #e7e5df;
-        position: sticky;
-        top: 0;
-        z-index: 1000;
-    }
-    .logo {
-        font-size: 25px;
-        font-weight: 700;
-        letter-spacing: -1px;
-    }
-    .logo span {
-        color: #68755a;
-    }
-    .nav-links {
-        display: flex;
-        align-items: center;
-        gap: 34px;
-    }
-    .nav-links a {
-        font-size: 14px;
-        font-weight: 500;
-        color: #3e413b;
-        transition: 0.2s;
-    }
-    .nav-links a:hover {
-        color: #68755a;
-    }
-    .nav-actions {
-        display: flex;
-        align-items: center;
-        gap: 15px;
-    }
-    .sign-in {
-        font-size: 14px;
-        font-weight: 600;
-    }
-    .list-button {
-        background: #68755a;
-        color: white;
-        padding: 12px 19px;
-        border-radius: 4px;
-        font-size: 13px;
-        font-weight: 600;
-        border: none;
-        cursor: pointer;
-    }
-    .list-button:hover {
-        background: #566249;
-    }
-    .hero {
-        padding: 55px 6% 70px;
-    }
-    .hero-content {
-        max-width: 1380px;
-        margin: auto;
-    }
-    .hero-heading {
-        max-width: 850px;
-        margin-bottom: 38px;
-    }
-    .small-heading {
-        color: #68755a;
-        font-size: 13px;
-        font-weight: 700;
-        letter-spacing: 2px;
-        text-transform: uppercase;
-        margin-bottom: 15px;
-    }
-    .hero h1 {
-        font-family: "Playfair Display", serif;
-        font-size: clamp(48px, 7vw, 92px);
-        line-height: 0.98;
-        font-weight: 500;
-        letter-spacing: -3px;
-    }
-    .hero h1 em {
-        font-style: italic;
-        color: #68755a;
-    }
-    .hero-description {
-        max-width: 560px;
-        margin-top: 25px;
-        font-size: 17px;
-        color: #676a63;
-    }
-    .search-panel {
-        background: white;
-        border: 1px solid #e2e0d9;
-        padding: 12px;
-        display: grid;
-        grid-template-columns: 150px 1fr 1fr 1fr 145px;
-        gap: 8px;
-        margin-bottom: 38px;
-        box-shadow: 0 15px 45px rgba(30, 35, 28, 0.06);
-    }
-    .search-field {
-        padding: 14px 16px;
-        border-right: 1px solid #e8e6df;
-    }
-    .search-field label {
-        display: block;
-        font-size: 11px;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        font-weight: 700;
-        color: #85877f;
-        margin-bottom: 4px;
-    }
-    .search-field select,
-    .search-field input {
-        width: 100%;
-        border: none;
-        outline: none;
-        background: transparent;
-        color: #272a25;
-        font-size: 14px;
-        font-weight: 500;
-    }
-    .search-button {
-        border: none;
-        background: #68755a;
-        color: white;
-        font-weight: 700;
-        cursor: pointer;
-        font-size: 14px;
-        transition: 0.2s;
-    }
-    .search-button:hover {
-        background: #566249;
-    }
-    .hero-image {
-        height: 560px;
-        overflow: hidden;
-        position: relative;
-    }
-    .hero-image img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-    }
-    .hero-image-overlay {
-        position: absolute;
-        bottom: 25px;
-        left: 25px;
-        background: rgba(255,255,255,0.94);
-        padding: 18px 22px;
-        max-width: 300px;
-    }
-    .hero-image-overlay span {
-        font-size: 11px;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        color: #7a7d76;
-    }
-    .hero-image-overlay h3 {
-        font-family: "Playfair Display", serif;
-        font-size: 23px;
-        margin-top: 3px;
-    }
-    .section {
-        padding: 95px 6%;
-    }
-    .section-inner {
-        max-width: 1380px;
-        margin: auto;
-    }
-    .section-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: end;
-        margin-bottom: 38px;
-    }
-    .section-title {
-        font-family: "Playfair Display", serif;
-        font-size: clamp(38px, 5vw, 60px);
-        font-weight: 500;
-        line-height: 1;
-    }
-    .section-description {
-        max-width: 390px;
-        color: #777a73;
-        font-size: 14px;
-    }
-    .view-all {
-        color: #68755a;
-        font-size: 14px;
-        font-weight: 700;
-        border-bottom: 1px solid #68755a;
-        padding-bottom: 3px;
-    }
-    .property-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 25px;
-    }
-    .property-card {
-        background: white;
-        border: 1px solid #e5e3dc;
-        overflow: hidden;
-        transition: 0.25s;
-        cursor: pointer;
-    }
-    .property-card:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 18px 45px rgba(25, 30, 25, 0.08);
-    }
-    .property-image {
-        height: 285px;
-        position: relative;
-        overflow: hidden;
-    }
-    .property-image img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transition: 0.4s;
-    }
-    .property-card:hover .property-image img {
-        transform: scale(1.04);
-    }
-    .property-status {
-        position: absolute;
-        top: 15px;
-        left: 15px;
-        background: white;
-        padding: 7px 11px;
-        font-size: 11px;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-    }
-    .heart {
-        position: absolute;
-        right: 15px;
-        top: 15px;
-        width: 35px;
-        height: 35px;
-        border: none;
-        border-radius: 50%;
-        background: white;
-        cursor: pointer;
-        font-size: 17px;
-        z-index: 5;
-    }
-    .property-info {
-        padding: 21px;
-    }
-    .property-price {
-        font-size: 21px;
-        font-weight: 700;
-        margin-bottom: 5px;
-    }
-    .property-name {
-        font-family: "Playfair Display", serif;
-        font-size: 21px;
-        margin-bottom: 4px;
-    }
-    .property-location {
-        color: #7b7e77;
-        font-size: 13px;
-        margin-bottom: 17px;
-    }
-    .property-details {
-        display: flex;
-        gap: 18px;
-        padding-top: 15px;
-        border-top: 1px solid #eceae4;
-        font-size: 12px;
-        color: #555851;
-    }
-    .loading {
-        grid-column: 1 / -1;
-        text-align: center;
-        padding: 60px 20px;
-        color: #777a73;
-    }
-    .empty-state {
-        grid-column: 1 / -1;
-        text-align: center;
-        padding: 60px 20px;
-        background: white;
-        border: 1px solid #e5e3dc;
-    }
-    .empty-state h3 {
-        font-family: "Playfair Display", serif;
-        font-size: 26px;
-        margin-bottom: 8px;
-    }
-    .empty-state p {
-        color: #777a73;
-        font-size: 14px;
-    }
-    .explore {
-        background: #e8e9e1;
-    }
-    .category-grid {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 18px;
-    }
-    .category-card {
-        height: 350px;
-        position: relative;
-        overflow: hidden;
-        background: #ddd;
-    }
-    .category-card img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transition: 0.4s;
-    }
-    .category-card:hover img {
-        transform: scale(1.05);
-    }
-    .category-content {
-        position: absolute;
-        left: 20px;
-        right: 20px;
-        bottom: 20px;
-        background: white;
-        padding: 17px;
-    }
-    .category-content h3 {
-        font-family: "Playfair Display", serif;
-        font-size: 24px;
-    }
-    .category-content p {
-        font-size: 12px;
-        color: #777;
-        margin-top: 3px;
-    }
-    .agents-section {
-        background: #f8f7f3;
-    }
-    .agent-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 25px;
-    }
-    .agent-card {
-        background: white;
-        border: 1px solid #e3e1da;
-        padding: 25px;
-        display: flex;
-        gap: 18px;
-        align-items: center;
-    }
-    .agent-photo {
-        width: 82px;
-        height: 82px;
-        border-radius: 50%;
-        object-fit: cover;
-    }
-    .agent-info h3 {
-        font-family: "Playfair Display", serif;
-        font-size: 21px;
-    }
-    .agent-location {
-        color: #777a73;
-        font-size: 13px;
-        margin: 3px 0 8px;
-    }
-    .agent-stats {
-        font-size: 12px;
-        color: #68755a;
-        font-weight: 700;
-    }
-    .sell-section {
-        padding: 95px 6%;
-        background: #242922;
-        color: white;
-    }
-    .sell-container {
-        max-width: 1380px;
-        margin: auto;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 70px;
-        align-items: center;
-    }
-    .sell-section h2 {
-        font-family: "Playfair Display", serif;
-        font-size: clamp(42px, 5vw, 68px);
-        line-height: 1;
-        font-weight: 500;
-    }
-    .sell-section p {
-        color: #c8cbc3;
-        max-width: 500px;
-        margin: 25px 0;
-    }
-    .sell-button {
-        display: inline-block;
-        background: #d9dfd0;
-        color: #242922;
-        padding: 14px 22px;
-        font-size: 13px;
-        font-weight: 700;
-    }
-    .sell-image {
-        height: 430px;
-    }
-    .sell-image img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-    footer {
-        background: #f8f7f3;
-        padding: 60px 6% 30px;
-    }
-    .footer-grid {
-        max-width: 1380px;
-        margin: auto;
-        display: grid;
-        grid-template-columns: 2fr 1fr 1fr 1fr;
-        gap: 50px;
-        padding-bottom: 45px;
-    }
-    .footer-brand p {
-        color: #777a73;
-        max-width: 350px;
-        font-size: 14px;
-        margin-top: 15px;
-    }
-    .footer-column h4 {
-        font-size: 12px;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        margin-bottom: 18px;
-    }
-    .footer-column a {
-        display: block;
-        color: #71746d;
-        font-size: 13px;
-        margin-bottom: 10px;
-    }
-    .footer-column a:hover {
-        color: #68755a;
-    }
-    .footer-bottom {
-        max-width: 1380px;
-        margin: auto;
-        border-top: 1px solid #e1dfd8;
-        padding-top: 20px;
-        display: flex;
-        justify-content: space-between;
-        color: #898b85;
-        font-size: 12px;
-    }
-    .mobile-menu {
-        display: none;
-        border: none;
-        background: none;
-        font-size: 25px;
-        cursor: pointer;
-    }
-    @media (max-width: 950px) {
-        .nav-links {
-            display: none;
+
+    <title>HABITA | Find Your Home</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: "DM Sans", sans-serif;
+            background: #f8f7f3;
+            color: #2f3a2e;
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button,
+        input,
+        select {
+            font-family: inherit;
+        }
+
+        /* =========================
+           NAVIGATION
+        ========================= */
+
+        .navbar {
+            height: 78px;
+            background: rgba(248, 247, 243, 0.98);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 5%;
+            border-bottom: 1px solid #e6e3db;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brand-mark {
+            width: 38px;
+            height: 38px;
+            background: #68755a;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 21px;
+            font-weight: 700;
+            border-radius: 7px 7px 3px 3px;
+        }
+
+        .brand-name {
+            font-size: 22px;
+            font-weight: 600;
+            letter-spacing: 4px;
+            color: #2f3a2e;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+
+        .nav-links a {
+            font-size: 14px;
+            color: #30352e;
+            transition: 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: #68755a;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .list-button {
+            border: none;
+            background: #68755a;
+            color: white;
+            padding: 11px 20px;
+            border-radius: 22px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .list-button:hover {
+            background: #566249;
+        }
+
+        .user-icon,
+        .menu-icon {
+            font-size: 20px;
+            color: #2f3a2e;
+            cursor: pointer;
+        }
+
         .mobile-menu {
+            display: none;
+            border: none;
+            background: none;
+            font-size: 25px;
+            cursor: pointer;
+            color: #2f3a2e;
+        }
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .hero {
+            padding: 0 3%;
+        }
+
+        .hero-image {
+            height: 610px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
             display: block;
         }
-        .nav-actions {
-            display: none;
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                90deg,
+                rgba(30, 39, 30, 0.70),
+                rgba(30, 39, 30, 0.28),
+                rgba(30, 39, 30, 0.05)
+            );
         }
-        .search-panel {
-            grid-template-columns: 1fr 1fr;
+
+        .hero-content {
+            position: absolute;
+            top: 50%;
+            left: 6%;
+            transform: translateY(-50%);
+            color: white;
+            max-width: 610px;
         }
-        .search-field {
-            border-right: none;
-            border-bottom: 1px solid #e8e6df;
+
+        .small-heading {
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
         }
-        .search-button {
-            min-height: 55px;
-        }
-        .property-grid {
-            grid-template-columns: 1fr 1fr;
-        }
-        .category-grid {
-            grid-template-columns: 1fr 1fr;
-        }
-        .agent-grid {
-            grid-template-columns: 1fr;
-        }
-        .sell-container {
-            grid-template-columns: 1fr;
-        }
-        .footer-grid {
-            grid-template-columns: 2fr 1fr 1fr;
-        }
-    }
-    @media (max-width: 650px) {
-        .navbar {
-            padding: 0 5%;
-            height: 70px;
-        }
-        .hero {
-            padding: 40px 5% 50px;
-        }
-        .hero h1 {
-            font-size: 50px;
+
+        .hero-content h1 {
+            font-family: "Playfair Display", serif;
+            font-size: clamp(50px, 7vw, 88px);
+            line-height: 0.98;
+            font-weight: 500;
             letter-spacing: -2px;
         }
-        .hero-description {
+
+        .hero-content p {
+            max-width: 520px;
+            margin-top: 20px;
+            font-size: 16px;
+            color: rgba(255,255,255,0.90);
+        }
+
+        /* =========================
+           SEARCH
+        ========================= */
+
+        .search-wrapper {
+            position: absolute;
+            bottom: 28px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: min(92%, 1100px);
+        }
+
+        .search-tabs {
+            display: flex;
+            width: fit-content;
+            background: white;
+            border-radius: 18px 18px 0 0;
+            overflow: hidden;
+            margin-left: 18px;
+        }
+
+        .search-tab {
+            border: none;
+            background: white;
+            padding: 11px 35px;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .search-tab.active {
+            background: #68755a;
+            color: white;
+        }
+
+        .search-panel {
+            background: rgba(255,255,255,0.97);
+            padding: 12px;
+            border-radius: 18px;
+            display: grid;
+            grid-template-columns: 1.15fr 1fr 1fr 1fr 125px;
+            gap: 7px;
+            box-shadow: 0 18px 50px rgba(0,0,0,0.18);
+        }
+
+        .search-field {
+            padding: 11px 15px;
+            border: 1px solid #e4e2da;
+            border-radius: 10px;
+            background: white;
+        }
+
+        .search-field label {
+            display: block;
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            color: #7d8179;
+            font-weight: 700;
+            margin-bottom: 3px;
+        }
+
+        .search-field input,
+        .search-field select {
+            width: 100%;
+            border: none;
+            outline: none;
+            background: transparent;
+            color: #30352e;
+            font-size: 13px;
+        }
+
+        .search-button {
+            border: none;
+            background: #68755a;
+            color: white;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .search-button:hover {
+            background: #566249;
+        }
+
+        /* =========================
+           LOCATION
+        ========================= */
+
+        .hero-location {
+            position: absolute;
+            right: 35px;
+            bottom: 145px;
+            color: white;
+            text-align: right;
+        }
+
+        .hero-location strong {
+            display: block;
             font-size: 15px;
         }
-        .search-panel {
-            grid-template-columns: 1fr;
+
+        .hero-location span {
+            font-size: 11px;
+            opacity: 0.85;
         }
-        .hero-image {
-            height: 400px;
+
+        /* =========================
+           QUICK ACTIONS
+        ========================= */
+
+        .quick-section {
+            padding: 70px 6% 45px;
         }
+
+        .quick-grid {
+            max-width: 1250px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 35px;
+        }
+
+        .quick-card {
+            text-align: center;
+        }
+
+        .quick-icon {
+            width: 58px;
+            height: 58px;
+            margin: auto auto 14px;
+            border: 1px solid #d9d7cf;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 25px;
+            color: #68755a;
+        }
+
+        .quick-card h3 {
+            font-family: "Playfair Display", serif;
+            font-size: 20px;
+            font-weight: 500;
+        }
+
+        .quick-card p {
+            color: #777a73;
+            font-size: 12px;
+            max-width: 160px;
+            margin: 4px auto 0;
+        }
+
+        /* =========================
+           FEATURED
+        ========================= */
+
         .section {
-            padding: 65px 5%;
+            padding: 90px 6%;
         }
+
+        .section-inner {
+            max-width: 1380px;
+            margin: auto;
+        }
+
         .section-header {
-            display: block;
+            display: flex;
+            justify-content: space-between;
+            align-items: end;
+            margin-bottom: 38px;
         }
+
+        .section-title {
+            font-family: "Playfair Display", serif;
+            font-size: clamp(40px, 5vw, 62px);
+            line-height: 1;
+            font-weight: 500;
+        }
+
         .section-description {
-            margin-top: 15px;
+            max-width: 390px;
+            color: #777a73;
+            font-size: 14px;
         }
+
         .view-all {
             display: inline-block;
-            margin-top: 18px;
+            color: #68755a;
+            font-size: 13px;
+            font-weight: 700;
+            margin-top: 12px;
+            border-bottom: 1px solid #68755a;
         }
+
         .property-grid {
-            grid-template-columns: 1fr;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
         }
-        .category-grid {
-            grid-template-columns: 1fr;
+
+        .property-card {
+            background: white;
+            border: 1px solid #e5e3dc;
+            overflow: hidden;
+            cursor: pointer;
+            transition: 0.25s;
         }
-        .category-card {
+
+        .property-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 45px rgba(25,30,25,0.10);
+        }
+
+        .property-image {
             height: 300px;
+            position: relative;
+            overflow: hidden;
         }
-        .sell-section {
-            padding: 65px 5%;
+
+        .property-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: 0.4s;
         }
-        .sell-image {
-            height: 330px;
+
+        .property-card:hover .property-image img {
+            transform: scale(1.04);
         }
-        .footer-grid {
-            grid-template-columns: 1fr 1fr;
+
+        .property-status {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: white;
+            padding: 7px 11px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
         }
-        .footer-brand {
+
+        .heart {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 35px;
+            height: 35px;
+            border: none;
+            border-radius: 50%;
+            background: white;
+            cursor: pointer;
+            font-size: 17px;
+        }
+
+        .property-info {
+            padding: 21px;
+        }
+
+        .property-price {
+            font-size: 21px;
+            font-weight: 700;
+        }
+
+        .property-name {
+            font-family: "Playfair Display", serif;
+            font-size: 21px;
+            margin-top: 3px;
+        }
+
+        .property-location {
+            color: #7b7e77;
+            font-size: 13px;
+            margin: 4px 0 17px;
+        }
+
+        .property-details {
+            display: flex;
+            gap: 18px;
+            border-top: 1px solid #eceae4;
+            padding-top: 14px;
+            font-size: 12px;
+            color: #555851;
+        }
+
+        .loading,
+        .empty-state {
             grid-column: 1 / -1;
+            text-align: center;
+            padding: 60px 20px;
         }
-        .footer-bottom {
+
+        .empty-state {
+            background: white;
+            border: 1px solid #e5e3dc;
+        }
+
+        .empty-state h3 {
+            font-family: "Playfair Display", serif;
+            font-size: 28px;
+        }
+
+        .empty-state p {
+            color: #777a73;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        /* =========================
+           FEATURE BANNER
+        ========================= */
+
+        .feature-banner {
+            padding: 0 6% 90px;
+        }
+
+        .feature-banner-inner {
+            max-width: 1380px;
+            margin: auto;
+            height: 300px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-banner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .feature-banner-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                90deg,
+                rgba(47,58,46,0.82),
+                rgba(47,58,46,0.25)
+            );
+            display: flex;
+            align-items: center;
+            padding: 50px;
+            color: white;
+        }
+
+        .feature-banner-content {
+            max-width: 430px;
+        }
+
+        .feature-banner-content h2 {
+            font-family: "Playfair Display", serif;
+            font-size: 45px;
+            line-height: 1;
+            font-weight: 500;
+        }
+
+        .feature-banner-content p {
+            margin-top: 12px;
+            color: #e1e4dd;
+            font-size: 14px;
+        }
+
+        /* =========================
+           CATEGORIES
+        ========================= */
+
+        .explore {
+            background: #e6e3db;
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        .category-card {
+            height: 330px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .category-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: 0.4s;
+        }
+
+        .category-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .category-content {
+            position: absolute;
+            left: 15px;
+            right: 15px;
+            bottom: 15px;
+            background: rgba(255,255,255,0.94);
+            padding: 15px;
+        }
+
+        .category-content h3 {
+            font-family: "Playfair Display", serif;
+            font-size: 23px;
+        }
+
+        .category-content p {
+            font-size: 11px;
+            color: #777a73;
+        }
+
+        /* =========================
+           AGENTS
+        ========================= */
+
+        .agent-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .agent-card {
+            background: white;
+            border: 1px solid #e3e1da;
+            padding: 25px;
+            display: flex;
+            gap: 18px;
+            align-items: center;
+        }
+
+        .agent-photo {
+            width: 78px;
+            height: 78px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .agent-info h3 {
+            font-family: "Playfair Display", serif;
+            font-size: 21px;
+        }
+
+        .agent-location {
+            color: #777a73;
+            font-size: 13px;
+        }
+
+        .agent-stats {
+            color: #68755a;
+            font-size: 12px;
+            font-weight: 700;
+            margin-top: 5px;
+        }
+
+        /* =========================
+           SELL
+        ========================= */
+
+        .sell-section {
+            background: #2f3a2e;
+            color: white;
+            padding: 90px 6%;
+        }
+
+        .sell-container {
+            max-width: 1380px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 70px;
+            align-items: center;
+        }
+
+        .sell-section h2 {
+            font-family: "Playfair Display", serif;
+            font-size: clamp(42px, 5vw, 68px);
+            line-height: 1;
+            font-weight: 500;
+        }
+
+        .sell-section p {
+            color: #c9cec6;
+            max-width: 500px;
+            margin: 22px 0;
+        }
+
+        .sell-button {
+            display: inline-block;
+            background: #d9dfd0;
+            color: #2f3a2e;
+            padding: 13px 21px;
+            font-size: 13px;
+            font-weight: 700;
+            border-radius: 3px;
+        }
+
+        .sell-image {
+            height: 400px;
+        }
+
+        .sell-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            background: #f8f7f3;
+            padding: 60px 6% 30px;
+        }
+
+        .footer-grid {
+            max-width: 1380px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 50px;
+            padding-bottom: 45px;
+        }
+
+        .footer-brand p {
+            color: #777a73;
+            max-width: 350px;
+            font-size: 14px;
+            margin-top: 15px;
+        }
+
+        .footer-column h4 {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 18px;
+        }
+
+        .footer-column a {
             display: block;
+            color: #71746d;
+            font-size: 13px;
+            margin-bottom: 10px;
         }
-        .footer-bottom p:last-child {
-            margin-top: 8px;
+
+        .footer-column a:hover {
+            color: #68755a;
         }
-    }
-</style>
+
+        .footer-bottom {
+            max-width: 1380px;
+            margin: auto;
+            border-top: 1px solid #e1dfd8;
+            padding-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            color: #898b85;
+            font-size: 12px;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 950px) {
+
+            .nav-links,
+            .nav-actions {
+                display: none;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .hero-image {
+                height: 680px;
+            }
+
+            .hero-content {
+                top: 38%;
+                left: 7%;
+                right: 7%;
+            }
+
+            .search-wrapper {
+                bottom: 25px;
+            }
+
+            .search-panel {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .search-field {
+                border: 1px solid #e4e2da;
+            }
+
+            .search-button {
+                min-height: 50px;
+            }
+
+            .quick-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .property-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .category-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .agent-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .sell-container {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-grid {
+                grid-template-columns: 2fr 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 650px) {
+
+            .navbar {
+                height: 68px;
+                padding: 0 5%;
+            }
+
+            .brand-name {
+                font-size: 19px;
+            }
+
+            .hero {
+                padding: 0;
+            }
+
+            .hero-image {
+                height: 700px;
+            }
+
+            .hero-content {
+                top: 30%;
+            }
+
+            .hero-content h1 {
+                font-size: 52px;
+            }
+
+            .hero-content p {
+                font-size: 14px;
+            }
+
+            .search-tabs {
+                margin-left: 8px;
+            }
+
+            .search-tab {
+                padding: 9px 25px;
+            }
+
+            .search-panel {
+                grid-template-columns: 1fr;
+            }
+
+            .search-wrapper {
+                width: 90%;
+            }
+
+            .hero-location {
+                display: none;
+            }
+
+            .quick-section {
+                padding: 55px 5% 25px;
+            }
+
+            .quick-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 30px 15px;
+            }
+
+            .section {
+                padding: 65px 5%;
+            }
+
+            .section-header {
+                display: block;
+            }
+
+            .section-description {
+                margin-top: 15px;
+            }
+
+            .property-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .feature-banner {
+                padding: 0 5% 65px;
+            }
+
+            .feature-banner-inner {
+                height: 360px;
+            }
+
+            .feature-banner-overlay {
+                padding: 30px;
+            }
+
+            .feature-banner-content h2 {
+                font-size: 38px;
+            }
+
+            .category-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .category-card {
+                height: 250px;
+            }
+
+            .sell-section {
+                padding: 65px 5%;
+            }
+
+            .sell-image {
+                height: 300px;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .footer-brand {
+                grid-column: 1 / -1;
+            }
+
+            .footer-bottom {
+                display: block;
+            }
+
+            .footer-bottom p:last-child {
+                margin-top: 8px;
+            }
+        }
+
+    </style>
 </head>
+
 <body>
+
+<!-- =========================
+     NAVIGATION
+========================= -->
+
 <nav class="navbar">
-<a href="index.html" class="logo">
-    Property<span>Link</span>
-</a>
-<div class="nav-links">
-    <a href="properties.html">Buy</a>
-    <a href="properties.html?purpose=rent">Rent</a>
-    <a href="sell.html">Sell</a>
-    <a href="#agents">Find an Agent</a>
-</div>
-<div class="nav-actions">
-    <a href="#" class="sign-in">Sign In</a>
-    <button class="list-button" onclick="listProperty()">
-        List Your Property
-    </button>
-</div>
-<button class="mobile-menu" onclick="toggleMenu()">
-    ☰
-</button>
-</nav>
-<main>
-<section class="hero">
-<div class="hero-content">
-    <div class="hero-heading">
-        <div class="small-heading">
-            PropertyLink South Africa
+
+    <a href="index.html" class="brand">
+
+        <div class="brand-mark">
+            H
         </div>
-        <h1>
-            Find a place<br>
-            to call <em>home.</em>
-        </h1>
-        <p class="hero-description">
-            Discover homes, apartments, land and commercial
-            property from trusted sellers and property
-            professionals across South Africa.
-        </p>
+
+        <div class="brand-name">
+            HABITA
+        </div>
+
+    </a>
+
+    <div class="nav-links">
+
+        <a href="properties.html?purpose=buy">
+            Buy
+        </a>
+
+        <a href="properties.html?purpose=rent">
+            Rent
+        </a>
+
+        <a href="properties.html">
+            View All
+        </a>
+
+        <a href="sell.html">
+            Sell
+        </a>
+
     </div>
-    <div class="search-panel">
-        <div class="search-field">
-            <label>Looking for</label>
-            <select id="searchPurpose">
-                <option value="buy">Buy</option>
-                <option value="rent">Rent</option>
-            </select>
-        </div>
-        <div class="search-field">
-            <label>Location</label>
-            <input
-                type="text"
-                id="searchLocation"
-                placeholder="Johannesburg, Sandton..."
-            >
-        </div>
-        <div class="search-field">
-            <label>Property type</label>
-            <select id="propertyType">
-                <option value="any">Any property</option>
-                <option value="house">House</option>
-                <option value="apartment">Apartment</option>
-                <option value="townhouse">Townhouse</option>
-                <option value="land">Land</option>
-                <option value="commercial">Commercial</option>
-            </select>
-        </div>
-        <div class="search-field">
-            <label>Price</label>
-            <select id="priceRange">
-                <option value="any">Any price</option>
-                <option value="under1">Under R1 million</option>
-                <option value="1to3">R1m – R3m</option>
-                <option value="3to5">R3m – R5m</option>
-                <option value="over5">R5 million+</option>
-            </select>
-        </div>
-        <button class="search-button" onclick="searchProperties()">
-            Search Properties
-        </button>
-    </div>
-    <div class="hero-image">
-        <img
-            src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1800&q=85"
-            alt="Modern luxury home"
+
+    <div class="nav-actions">
+
+        <button
+            class="list-button"
+            onclick="listProperty()"
         >
-        <div class="hero-image-overlay">
-            <span>Featured location</span>
-            <h3>Johannesburg</h3>
-        </div>
+            List Your Property
+        </button>
+
+        <span class="user-icon">
+            ♙
+        </span>
+
+        <span
+            class="menu-icon"
+            onclick="toggleMenu()"
+        >
+            ☰
+        </span>
+
     </div>
-</div>
-</section>
-<section class="section" id="properties">
-<div class="section-inner">
-    <div class="section-header">
-        <div>
+
+    <button
+        class="mobile-menu"
+        onclick="toggleMenu()"
+    >
+        ☰
+    </button>
+
+</nav>
+
+
+<!-- =========================
+     HERO
+========================= -->
+
+<main>
+
+<section class="hero">
+
+    <div class="hero-image">
+
+        <img
+            src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=2000&q=90"
+            alt="Modern South African home"
+        >
+
+        <div class="hero-overlay"></div>
+
+
+        <div class="hero-content">
+
             <div class="small-heading">
-                Explore
+                South Africa's Property Marketplace
             </div>
-            <h2 class="section-title">
-                Featured properties
-            </h2>
-        </div>
-        <div>
-            <p class="section-description">
-                Browse the latest properties listed
-                through PropertyLink.
+
+            <h1>
+                Find your<br>
+                next chapter.
+            </h1>
+
+            <p>
+                Buy, rent or sell properties across South Africa
+                with HABITA. Simple. Secure. Reliable.
             </p>
-            <a href="properties.html" class="view-all">
-                View all properties
-            </a>
+
         </div>
-    </div>
-    <div class="property-grid" id="featuredProperties">
-        <div class="loading">
-            Loading properties...
+
+
+        <div class="hero-location">
+
+            <strong>
+                ◇ Johannesburg
+            </strong>
+
+            <span>
+                Featured location
+            </span>
+
         </div>
+
+
+        <!-- SEARCH -->
+
+        <div class="search-wrapper">
+
+            <div class="search-tabs">
+
+                <button
+                    class="search-tab active"
+                    id="buyTab"
+                    onclick="setPurpose('buy')"
+                >
+                    Buy
+                </button>
+
+                <button
+                    class="search-tab"
+                    id="rentTab"
+                    onclick="setPurpose('rent')"
+                >
+                    Rent
+                </button>
+
+            </div>
+
+
+            <div class="search-panel">
+
+                <div class="search-field">
+
+                    <label>
+                        Location
+                    </label>
+
+                    <input
+                        type="text"
+                        id="searchLocation"
+                        placeholder="Johannesburg, Sandton..."
+                    >
+
+                </div>
+
+
+                <div class="search-field">
+
+                    <label>
+                        Property type
+                    </label>
+
+                    <select id="propertyType">
+
+                        <option value="any">
+                            Any property
+                        </option>
+
+                        <option value="house">
+                            House
+                        </option>
+
+                        <option value="apartment">
+                            Apartment
+                        </option>
+
+                        <option value="townhouse">
+                            Townhouse
+                        </option>
+
+                        <option value="land">
+                            Land
+                        </option>
+
+                        <option value="commercial">
+                            Commercial
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="search-field">
+
+                    <label>
+                        Price range
+                    </label>
+
+                    <select id="priceRange">
+
+                        <option value="any">
+                            Any price
+                        </option>
+
+                        <option value="under1">
+                            Under R1 million
+                        </option>
+
+                        <option value="1to3">
+                            R1m – R3m
+                        </option>
+
+                        <option value="3to5">
+                            R3m – R5m
+                        </option>
+
+                        <option value="over5">
+                            R5 million+
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="search-field">
+
+                    <label>
+                        Listing
+                    </label>
+
+                    <select id="listingType">
+
+                        <option value="all">
+                            All listings
+                        </option>
+
+                        <option value="buy">
+                            For Sale
+                        </option>
+
+                        <option value="rent">
+                            For Rent
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <button
+                    class="search-button"
+                    onclick="searchProperties()"
+                >
+                    Search
+                </button>
+
+            </div>
+
+        </div>
+
     </div>
-</div>
+
 </section>
+
+
+<!-- =========================
+     QUICK ACTIONS
+========================= -->
+
+<section class="quick-section">
+
+    <div class="quick-grid">
+
+        <a
+            href="properties.html?purpose=buy"
+            class="quick-card"
+        >
+
+            <div class="quick-icon">
+                ⌂
+            </div>
+
+            <h3>
+                Buy
+            </h3>
+
+            <p>
+                Find your dream home.
+            </p>
+
+        </a>
+
+
+        <a
+            href="properties.html?purpose=rent"
+            class="quick-card"
+        >
+
+            <div class="quick-icon">
+                ◇
+            </div>
+
+            <h3>
+                Rent
+            </h3>
+
+            <p>
+                Flexible living options.
+            </p>
+
+        </a>
+
+
+        <a
+            href="sell.html"
+            class="quick-card"
+        >
+
+            <div class="quick-icon">
+                ↗
+            </div>
+
+            <h3>
+                Sell
+            </h3>
+
+            <p>
+                Get the best value.
+            </p>
+
+        </a>
+
+
+        <div class="quick-card">
+
+            <div class="quick-icon">
+                ✓
+            </div>
+
+            <h3>
+                Safe & Secure
+            </h3>
+
+            <p>
+                Trusted property listings.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     FEATURED PROPERTIES
+========================= -->
+
+<section
+    class="section"
+    id="properties"
+>
+
+    <div class="section-inner">
+
+        <div class="section-header">
+
+            <div>
+
+                <div class="small-heading">
+                    Featured
+                </div>
+
+                <h2 class="section-title">
+                    Properties worth seeing.
+                </h2>
+
+            </div>
+
+
+            <div>
+
+                <p class="section-description">
+                    Discover the latest properties listed
+                    through HABITA.
+                </p>
+
+                <a
+                    href="properties.html"
+                    class="view-all"
+                >
+                    View all properties →
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div
+            class="property-grid"
+            id="featuredProperties"
+        >
+
+            <div class="loading">
+                Loading properties...
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     FEATURE BANNER
+========================= -->
+
+<section class="feature-banner">
+
+    <div class="feature-banner-inner">
+
+        <img
+            src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1800&q=85"
+            alt="South African landscape"
+        >
+
+        <div class="feature-banner-overlay">
+
+            <div class="feature-banner-content">
+
+                <div class="small-heading">
+                    More than just properties.
+                </div>
+
+                <h2>
+                    Find a place that feels like home.
+                </h2>
+
+                <p>
+                    HABITA connects people with homes,
+                    land and opportunities across cities,
+                    towns and neighbourhoods in South Africa.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     EXPLORE
+========================= -->
+
 <section class="section explore">
-<div class="section-inner">
-    <div class="section-header">
-        <div>
-            <div class="small-heading">
-                Discover
+
+    <div class="section-inner">
+
+        <div class="section-header">
+
+            <div>
+
+                <div class="small-heading">
+                    Discover
+                </div>
+
+                <h2 class="section-title">
+                    Explore property.
+                </h2>
+
             </div>
-            <h2 class="section-title">
-                Explore property
-            </h2>
+
+            <p class="section-description">
+                Find the type of property that fits
+                your next move.
+            </p>
+
         </div>
-        <p class="section-description">
-            Find the type of property that fits
-            your next move.
-        </p>
+
+
+        <div class="category-grid">
+
+            <a
+                href="properties.html?type=house"
+                class="category-card"
+            >
+
+                <img
+                    src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=900&q=80"
+                    alt="Houses"
+                >
+
+                <div class="category-content">
+
+                    <h3>
+                        Houses
+                    </h3>
+
+                    <p>
+                        Family homes and houses
+                    </p>
+
+                </div>
+
+            </a>
+
+
+            <a
+                href="properties.html?type=apartment"
+                class="category-card"
+            >
+
+                <img
+                    src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=900&q=80"
+                    alt="Apartments"
+                >
+
+                <div class="category-content">
+
+                    <h3>
+                        Apartments
+                    </h3>
+
+                    <p>
+                        Modern city living
+                    </p>
+
+                </div>
+
+            </a>
+
+
+            <a
+                href="properties.html?type=townhouse"
+                class="category-card"
+            >
+
+                <img
+                    src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=900&q=80"
+                    alt="Townhouses"
+                >
+
+                <div class="category-content">
+
+                    <h3>
+                        Townhouses
+                    </h3>
+
+                    <p>
+                        Comfortable modern living
+                    </p>
+
+                </div>
+
+            </a>
+
+
+            <a
+                href="properties.html?type=land"
+                class="category-card"
+            >
+
+                <img
+                    src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=900&q=80"
+                    alt="Land"
+                >
+
+                <div class="category-content">
+
+                    <h3>
+                        Land
+                    </h3>
+
+                    <p>
+                        Build your next opportunity
+                    </p>
+
+                </div>
+
+            </a>
+
+        </div>
+
     </div>
-    <div class="category-grid">
-        <a href="properties.html?type=house" class="category-card">
-            <img
-                src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=900&q=80"
-                alt="Homes"
-            >
-            <div class="category-content">
-                <h3>Homes</h3>
-                <p>Houses & family homes</p>
-            </div>
-        </a>
-        <a href="properties.html?type=apartment" class="category-card">
-            <img
-                src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=900&q=80"
-                alt="Apartments"
-            >
-            <div class="category-content">
-                <h3>Apartments</h3>
-                <p>Modern city living</p>
-            </div>
-        </a>
-        <a href="properties.html?type=land" class="category-card">
-            <img
-                src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=900&q=80"
-                alt="Land"
-            >
-            <div class="category-content">
-                <h3>Land</h3>
-                <p>Find your next opportunity</p>
-            </div>
-        </a>
-        <a href="properties.html?type=commercial" class="category-card">
-            <img
-                src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=900&q=80"
-                alt="Commercial property"
-            >
-            <div class="category-content">
-                <h3>Commercial</h3>
-                <p>Property for business</p>
-            </div>
-        </a>
-    </div>
-</div>
+
 </section>
-<section class="section agents-section" id="agents">
-<div class="section-inner">
-    <div class="section-header">
-        <div>
-            <div class="small-heading">
-                People
+
+
+<!-- =========================
+     AGENTS
+========================= -->
+
+<section
+    class="section"
+    id="agents"
+>
+
+    <div class="section-inner">
+
+        <div class="section-header">
+
+            <div>
+
+                <div class="small-heading">
+                    People
+                </div>
+
+                <h2 class="section-title">
+                    Local property experts.
+                </h2>
+
             </div>
-            <h2 class="section-title">
-                Meet local agents
-            </h2>
-        </div>
-        <div>
+
             <p class="section-description">
                 Connect with property professionals
                 who understand their local markets.
             </p>
-            <a href="#" class="view-all">
-                Find an agent
+
+        </div>
+
+
+        <div class="agent-grid">
+
+            <div class="agent-card">
+
+                <img
+                    class="agent-photo"
+                    src="https://randomuser.me/api/portraits/men/32.jpg"
+                    alt="Property agent"
+                >
+
+                <div class="agent-info">
+
+                    <h3>
+                        Thabo Mokoena
+                    </h3>
+
+                    <p class="agent-location">
+                        Johannesburg
+                    </p>
+
+                    <p class="agent-stats">
+                        128 listings
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="agent-card">
+
+                <img
+                    class="agent-photo"
+                    src="https://randomuser.me/api/portraits/women/44.jpg"
+                    alt="Property agent"
+                >
+
+                <div class="agent-info">
+
+                    <h3>
+                        Lerato Dlamini
+                    </h3>
+
+                    <p class="agent-location">
+                        Pretoria
+                    </p>
+
+                    <p class="agent-stats">
+                        94 listings
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="agent-card">
+
+                <img
+                    class="agent-photo"
+                    src="https://randomuser.me/api/portraits/men/45.jpg"
+                    alt="Property agent"
+                >
+
+                <div class="agent-info">
+
+                    <h3>
+                        Karabo Ndlovu
+                    </h3>
+
+                    <p class="agent-location">
+                        Midrand
+                    </p>
+
+                    <p class="agent-stats">
+                        76 listings
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     SELL
+========================= -->
+
+<section class="sell-section">
+
+    <div class="sell-container">
+
+        <div>
+
+            <div class="small-heading">
+                Property owners
+            </div>
+
+            <h2>
+                Ready to sell or rent your property?
+            </h2>
+
+            <p>
+                Put your property in front of people
+                looking for their next home or opportunity.
+                Create your listing through HABITA.
+            </p>
+
+            <a
+                href="sell.html"
+                class="sell-button"
+            >
+                List Your Property
             </a>
+
         </div>
+
+
+        <div class="sell-image">
+
+            <img
+                src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1200&q=85"
+                alt="Modern property"
+            >
+
+        </div>
+
     </div>
-    <div class="agent-grid">
-        <div class="agent-card">
-            <img
-                class="agent-photo"
-                src="https://randomuser.me/api/portraits/men/32.jpg"
-                alt="Property agent"
-            >
-            <div class="agent-info">
-                <h3>Thabo Mokoena</h3>
-                <p class="agent-location">
-                    Johannesburg
-                </p>
-                <p class="agent-stats">
-                    128 listings
-                </p>
-            </div>
-        </div>
-        <div class="agent-card">
-            <img
-                class="agent-photo"
-                src="https://randomuser.me/api/portraits/women/44.jpg"
-                alt="Property agent"
-            >
-            <div class="agent-info">
-                <h3>Lerato Dlamini</h3>
-                <p class="agent-location">
-                    Pretoria
-                </p>
-                <p class="agent-stats">
-                    94 listings
-                </p>
-            </div>
-        </div>
-        <div class="agent-card">
-            <img
-                class="agent-photo"
-                src="https://randomuser.me/api/portraits/men/45.jpg"
-                alt="Property agent"
-            >
-            <div class="agent-info">
-                <h3>Karabo Ndlovu</h3>
-                <p class="agent-location">
-                    Midrand
-                </p>
-                <p class="agent-stats">
-                    76 listings
-                </p>
-            </div>
-        </div>
-    </div>
-</div>
+
 </section>
-<section class="sell-section" id="sell">
-<div class="sell-container">
-    <div>
-        <div class="small-heading">
-            Property owners
-        </div>
-        <h2>
-            Ready to put your property on the market?
-        </h2>
-        <p>
-            Reach buyers and renters looking for their
-            next property. Create your listing and connect
-            with potential clients through PropertyLink.
-        </p>
-        <a href="sell.html" class="sell-button">
-            List Your Property
-        </a>
-    </div>
-    <div class="sell-image">
-        <img
-            src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1200&q=80"
-            alt="Beautiful modern property"
-        >
-    </div>
-</div>
-</section>
+
 </main>
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
 <footer>
-<div class="footer-grid">
-    <div class="footer-brand">
-        <a href="index.html" class="logo">
-            Property<span>Link</span>
-        </a>
+
+    <div class="footer-grid">
+
+        <div class="footer-brand">
+
+            <a
+                href="index.html"
+                class="brand"
+            >
+
+                <div class="brand-mark">
+                    H
+                </div>
+
+                <div class="brand-name">
+                    HABITA
+                </div>
+
+            </a>
+
+            <p>
+                A modern South African property marketplace
+                connecting people with homes, land and
+                commercial opportunities.
+            </p>
+
+        </div>
+
+
+        <div class="footer-column">
+
+            <h4>
+                Explore
+            </h4>
+
+            <a href="properties.html?purpose=buy">
+                Buy Property
+            </a>
+
+            <a href="properties.html?purpose=rent">
+                Rent Property
+            </a>
+
+            <a href="properties.html?type=land">
+                Land
+            </a>
+
+            <a href="properties.html?type=commercial">
+                Commercial
+            </a>
+
+        </div>
+
+
+        <div class="footer-column">
+
+            <h4>
+                Professionals
+            </h4>
+
+            <a href="sell.html">
+                List Property
+            </a>
+
+            <a href="#agents">
+                Find an Agent
+            </a>
+
+            <a href="#">
+                Agent Sign In
+            </a>
+
+        </div>
+
+
+        <div class="footer-column">
+
+            <h4>
+                HABITA
+            </h4>
+
+            <a href="#">
+                About
+            </a>
+
+            <a href="#">
+                Contact
+            </a>
+
+            <a href="#">
+                Privacy
+            </a>
+
+            <a href="#">
+                Terms
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <div class="footer-bottom">
+
         <p>
-            A modern property marketplace connecting
-            people with homes, land and commercial
-            opportunities across South Africa.
+            © 2026 HABITA. All rights reserved.
         </p>
+
+        <p>
+            Find a place. Find your home.
+        </p>
+
     </div>
-    <div class="footer-column">
-        <h4>Explore</h4>
-        <a href="properties.html?purpose=buy">
-            Buy Property
-        </a>
-        <a href="properties.html?purpose=rent">
-            Rent Property
-        </a>
-        <a href="properties.html?type=land">
-            Land
-        </a>
-        <a href="properties.html?type=commercial">
-            Commercial
-        </a>
-    </div>
-    <div class="footer-column">
-        <h4>Professionals</h4>
-        <a href="sell.html">
-            List Property
-        </a>
-        <a href="#agents">
-            Find an Agent
-        </a>
-        <a href="#">
-            Agent Sign In
-        </a>
-    </div>
-    <div class="footer-column">
-        <h4>PropertyLink</h4>
-        <a href="#">
-            About
-        </a>
-        <a href="#">
-            Contact
-        </a>
-        <a href="#">
-            Privacy
-        </a>
-        <a href="#">
-            Terms
-        </a>
-    </div>
-</div>
-<div class="footer-bottom">
-    <p>
-        © 2026 PropertyLink. All rights reserved.
-    </p>
-    <p>
-        Find. Connect. Move.
-    </p>
-</div>
+
 </footer>
+
+
 <script>
+
+    /* =========================================
+       SUPABASE
+    ========================================= */
+
     const SUPABASE_URL =
         "https://aamkntdlxrlsrmuryhqi.supabase.co";
+
     const SUPABASE_ANON_KEY =
         "sb_publishable__0IBE154tO0LDKrlmjXvHQ_FA4QpgNL";
+
     const supabaseClient =
         window.supabase.createClient(
             SUPABASE_URL,
             SUPABASE_ANON_KEY
         );
+
+
     const DEFAULT_PROPERTY_IMAGE =
         "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1000&q=80";
-    function formatPrice(price, listingType) {
-        if (price === null || price === undefined) {
-            return "Price on request";
+
+
+    let currentPurpose = "buy";
+
+
+    /* =========================================
+       SEARCH TAB
+    ========================================= */
+
+    function setPurpose(purpose) {
+
+        currentPurpose = purpose;
+
+        const buyTab =
+            document.getElementById("buyTab");
+
+        const rentTab =
+            document.getElementById("rentTab");
+
+
+        if (purpose === "buy") {
+
+            buyTab.classList.add("active");
+            rentTab.classList.remove("active");
+
+        } else {
+
+            rentTab.classList.add("active");
+            buyTab.classList.remove("active");
+
         }
-        const number = Number(price);
-        if (Number.isNaN(number)) {
-            return "Price on request";
+
+    }
+
+
+    /* =========================================
+       SEARCH
+    ========================================= */
+
+    function searchProperties() {
+
+        const location =
+            document.getElementById(
+                "searchLocation"
+            ).value.trim();
+
+        const type =
+            document.getElementById(
+                "propertyType"
+            ).value;
+
+        const price =
+            document.getElementById(
+                "priceRange"
+            ).value;
+
+
+        const params =
+            new URLSearchParams();
+
+
+        params.set(
+            "purpose",
+            currentPurpose
+        );
+
+
+        if (location) {
+
+            params.set(
+                "location",
+                location
+            );
+
         }
+
+
+        if (
+            type &&
+            type !== "any"
+        ) {
+
+            params.set(
+                "type",
+                type
+            );
+
+        }
+
+
+        if (
+            price &&
+            price !== "any"
+        ) {
+
+            params.set(
+                "price",
+                price
+            );
+
+        }
+
+
+        window.location.href =
+            "properties.html?" +
+            params.toString();
+
+    }
+
+
+    /* =========================================
+       FORMAT PRICE
+    ========================================= */
+
+    function formatPrice(
+        price,
+        listingType
+    ) {
+
+        if (
+            price === null ||
+            price === undefined
+        ) {
+
+            return "Price on request";
+
+        }
+
+
+        const number =
+            Number(price);
+
+
+        if (
+            Number.isNaN(number)
+        ) {
+
+            return "Price on request";
+
+        }
+
+
         const formatted =
             "R" +
-            number.toLocaleString("en-ZA", {
-                maximumFractionDigits: 0
-            });
+            number.toLocaleString(
+                "en-ZA",
+                {
+                    maximumFractionDigits: 0
+                }
+            );
+
+
         if (
             listingType &&
-            String(listingType).toLowerCase().includes("rent")
+            String(listingType)
+                .toLowerCase()
+                .includes("rent")
         ) {
-            return formatted + " / month";
+
+            return formatted +
+                " / month";
+
         }
+
+
         return formatted;
+
     }
-    function cleanText(value, fallback = "") {
-        if (
-            value === null ||
-            value === undefined ||
-            String(value).trim() === ""
-        ) {
-            return fallback;
-        }
-        return String(value);
+
+
+    /* =========================================
+       ESCAPE HTML
+    ========================================= */
+
+    function escapeHtml(value) {
+
+        return String(value)
+
+            .replace(
+                /&/g,
+                "&amp;"
+            )
+
+            .replace(
+                /</g,
+                "&lt;"
+            )
+
+            .replace(
+                />/g,
+                "&gt;"
+            )
+
+            .replace(
+                /"/g,
+                "&quot;"
+            )
+
+            .replace(
+                /'/g,
+                "&#039;"
+            );
+
     }
-    function createPropertyCard(property) {
+
+
+    /* =========================================
+       PROPERTY CARD
+    ========================================= */
+
+    function createPropertyCard(
+        property
+    ) {
+
         const title =
-            cleanText(property.title, "Property");
+            property.title ||
+            "Property";
+
+
         const city =
-            cleanText(property.city, "");
+            property.city ||
+            "";
+
+
         const province =
-            cleanText(property.province, "");
-        let location = "";
-        if (city && province) {
-            location = city + ", " + province;
-        } else {
-            location = city || province || "South Africa";
-        }
+            property.province ||
+            "";
+
+
+        const location =
+            city && province
+                ? city + ", " + province
+                : city ||
+                  province ||
+                  "South Africa";
+
+
         const bedrooms =
             property.bedrooms !== null &&
             property.bedrooms !== undefined
-                ? `${property.bedrooms} Beds`
+                ? property.bedrooms + " Beds"
                 : "";
+
+
         const bathrooms =
             property.bathrooms !== null &&
             property.bathrooms !== undefined
-                ? `${property.bathrooms} Baths`
+                ? property.bathrooms + " Baths"
                 : "";
+
+
         const size =
             property.property_size !== null &&
             property.property_size !== undefined
-                ? `${Number(property.property_size).toLocaleString("en-ZA")} m²`
+                ? Number(
+                    property.property_size
+                  ).toLocaleString(
+                    "en-ZA"
+                  ) + " m²"
                 : "";
+
+
         const details = [
             bedrooms,
             bathrooms,
             size
         ].filter(Boolean);
-        const listingType =
-            cleanText(property.listing_type, "For Sale");
-        const image =
-            DEFAULT_PROPERTY_IMAGE;
+
+
         const card =
-            document.createElement("article");
-        card.className = "property-card";
-        card.onclick = function(event) {
-            if (
-                event.target.closest(".heart")
-            ) {
-                return;
-            }
-            window.location.href =
-                "property.html?id=" +
-                encodeURIComponent(property.id);
-        };
+            document.createElement(
+                "article"
+            );
+
+
+        card.className =
+            "property-card";
+
+
+        card.onclick =
+            function(event) {
+
+                if (
+                    event.target.closest(
+                        ".heart"
+                    )
+                ) {
+
+                    return;
+
+                }
+
+
+                window.location.href =
+                    "property.html?id=" +
+                    encodeURIComponent(
+                        property.id
+                    );
+
+            };
+
+
         card.innerHTML = `
+
             <div class="property-image">
+
                 <img
-                    src="${image}"
+                    src="${DEFAULT_PROPERTY_IMAGE}"
                     alt="${escapeHtml(title)}"
                 >
+
                 <span class="property-status">
-                    ${escapeHtml(listingType)}
+                    ${escapeHtml(
+                        property.listing_type ||
+                        "For Sale"
+                    )}
                 </span>
+
                 <button
                     class="heart"
                     type="button"
                     onclick="saveProperty(this, event)"
-                    aria-label="Save property"
                 >
                     ♡
                 </button>
+
             </div>
+
+
             <div class="property-info">
+
                 <div class="property-price">
-                    ${formatPrice(property.price, property.listing_type)}
+                    ${formatPrice(
+                        property.price,
+                        property.listing_type
+                    )}
                 </div>
+
                 <h3 class="property-name">
                     ${escapeHtml(title)}
                 </h3>
+
                 <p class="property-location">
                     ${escapeHtml(location)}
                 </p>
+
                 <div class="property-details">
+
                     ${
                         details.length
-                            ? details.map(detail =>
-                                `<span>${escapeHtml(detail)}</span>`
-                              ).join("")
+                            ? details
+                                .map(
+                                    detail =>
+                                        `<span>${escapeHtml(detail)}</span>`
+                                )
+                                .join("")
                             : `<span>Property details available</span>`
                     }
+
                 </div>
+
             </div>
+
         `;
+
+
         return card;
+
     }
-    function escapeHtml(value) {
-        return String(value)
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;");
-    }
+
+
+    /* =========================================
+       LOAD PROPERTIES
+    ========================================= */
+
     async function loadFeaturedProperties() {
+
         const container =
             document.getElementById(
                 "featuredProperties"
             );
+
+
         try {
+
             const {
                 data,
                 error
             } = await supabaseClient
+
                 .from("properties")
+
                 .select(`
                     id,
                     title,
@@ -1108,117 +2281,161 @@
                     status,
                     created_at
                 `)
-                .order("created_at", {
-                    ascending: false
-                })
+
+                .order(
+                    "created_at",
+                    {
+                        ascending: false
+                    }
+                )
+
                 .limit(6);
+
+
             if (error) {
+
                 throw error;
+
             }
+
+
             container.innerHTML = "";
-            if (!data || data.length === 0) {
+
+
+            if (
+                !data ||
+                data.length === 0
+            ) {
+
                 container.innerHTML = `
+
                     <div class="empty-state">
+
                         <h3>
                             No properties listed yet
                         </h3>
+
                         <p>
-                            New properties will appear here
-                            when they are listed on PropertyLink.
+                            New properties will appear
+                            here when they are listed
+                            on HABITA.
                         </p>
+
                     </div>
+
                 `;
+
                 return;
+
             }
-            data.forEach(property => {
-                container.appendChild(
-                    createPropertyCard(property)
-                );
-            });
+
+
+            data.forEach(
+                function(property) {
+
+                    container.appendChild(
+                        createPropertyCard(
+                            property
+                        )
+                    );
+
+                }
+            );
+
+
         } catch (error) {
+
             console.error(
                 "Could not load properties:",
                 error
             );
+
+
             container.innerHTML = `
+
                 <div class="empty-state">
+
                     <h3>
                         Properties could not be loaded
                     </h3>
+
                     <p>
-                        Please refresh the page and try again.
+                        Please refresh the page
+                        and try again.
                     </p>
+
                 </div>
+
             `;
+
         }
+
     }
-    function searchProperties() {
-        const purpose =
-            document.getElementById(
-                "searchPurpose"
-            ).value;
-        const location =
-            document.getElementById(
-                "searchLocation"
-            ).value.trim();
-        const type =
-            document.getElementById(
-                "propertyType"
-            ).value;
-        const price =
-            document.getElementById(
-                "priceRange"
-            ).value;
-        const params =
-            new URLSearchParams();
-        if (purpose) {
-            params.set(
-                "purpose",
-                purpose
-            );
-        }
-        if (location) {
-            params.set(
-                "location",
-                location
-            );
-        }
-        if (type && type !== "any") {
-            params.set(
-                "type",
-                type
-            );
-        }
-        if (price && price !== "any") {
-            params.set(
-                "price",
-                price
-            );
-        }
-        window.location.href =
-            "properties.html?" +
-            params.toString();
-    }
-    function saveProperty(button, event) {
+
+
+    /* =========================================
+       SAVE PROPERTY
+    ========================================= */
+
+    function saveProperty(
+        button,
+        event
+    ) {
+
         if (event) {
+
             event.stopPropagation();
+
         }
-        if (button.innerHTML.trim() === "♡") {
+
+
+        if (
+            button.innerHTML.trim() === "♡"
+        ) {
+
             button.innerHTML = "♥";
+
         } else {
+
             button.innerHTML = "♡";
+
         }
+
     }
+
+
+    /* =========================================
+       LIST PROPERTY
+    ========================================= */
+
     function listProperty() {
+
         window.location.href =
             "sell.html";
+
     }
+
+
+    /* =========================================
+       MOBILE MENU
+    ========================================= */
+
     function toggleMenu() {
+
         alert(
             "Mobile navigation will be added soon."
         );
+
     }
+
+
+    /* =========================================
+       START
+    ========================================= */
+
     loadFeaturedProperties();
+
 </script>
+
 </body>
 </html>
