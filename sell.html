@@ -4,13 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>List Your Property | PropertyLink</title>
+    <title>List Your Property | Habita</title>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap"
+        rel="stylesheet"
+    >
 
     <style>
         * {
@@ -52,7 +56,7 @@
 
         .nav-links {
             display: flex;
-            gap: 32px;
+            gap: 30px;
             align-items: center;
         }
 
@@ -275,6 +279,7 @@
         }
 
         @media (max-width: 800px) {
+
             .nav-links {
                 display: none;
             }
@@ -314,27 +319,55 @@
 <body>
 
 <nav>
-    <a href="index.html" class="logo">PropertyLink</a>
+
+    <a href="index.html" class="logo">
+        Habita
+    </a>
 
     <div class="nav-links">
-        <a href="properties.html">Buy</a>
-        <a href="properties.html">Rent</a>
-        <a href="sell.html">Sell</a>
-        <a href="index.html#agents">Find an Agent</a>
-        <a href="properties.html" class="nav-button">Find Property</a>
+
+        <a href="properties.html">
+            Buy
+        </a>
+
+        <a href="properties.html">
+            Rent
+        </a>
+
+        <a href="properties.html">
+            View all
+        </a>
+
+        <a href="sell.html">
+            Sell
+        </a>
+
+        <a href="sell.html" class="nav-button">
+            List Your Property
+        </a>
+
     </div>
+
 </nav>
 
-<section class="hero">
-    <span>Sell or rent your property</span>
 
-    <h1>Put your property on the market.</h1>
+<section class="hero">
+
+    <span>
+        Sell or rent your property
+    </span>
+
+    <h1>
+        Put your property on the market.
+    </h1>
 
     <p>
-        Create a property listing on PropertyLink and connect your property
+        Create a property listing on Habita and connect your property
         with people looking to buy or rent.
     </p>
+
 </section>
+
 
 <div class="form-container">
 
@@ -344,9 +377,14 @@
 
         <form id="propertyForm">
 
+
+            <!-- PROPERTY INFORMATION -->
+
             <div class="section">
 
-                <h2 class="section-title">Property information</h2>
+                <h2 class="section-title">
+                    Property information
+                </h2>
 
                 <p class="section-description">
                     Tell potential buyers or tenants about the property.
@@ -354,31 +392,74 @@
 
                 <div class="grid">
 
+
                     <div class="field">
-                        <label for="listingType">Listing type</label>
+
+                        <label for="listingType">
+                            Listing type
+                        </label>
 
                         <select id="listingType" required>
-                            <option value="">Select</option>
-                            <option value="For Sale">For Sale</option>
-                            <option value="For Rent">For Rent</option>
+
+                            <option value="">
+                                Select
+                            </option>
+
+                            <option value="For Sale">
+                                For Sale
+                            </option>
+
+                            <option value="For Rent">
+                                For Rent
+                            </option>
+
                         </select>
+
                     </div>
+
 
                     <div class="field">
-                        <label for="propertyType">Property type</label>
+
+                        <label for="propertyType">
+                            Property type
+                        </label>
 
                         <select id="propertyType" required>
-                            <option value="">Select</option>
-                            <option value="House">House</option>
-                            <option value="Apartment">Apartment</option>
-                            <option value="Townhouse">Townhouse</option>
-                            <option value="Land">Land</option>
-                            <option value="Commercial">Commercial</option>
+
+                            <option value="">
+                                Select
+                            </option>
+
+                            <option value="House">
+                                House
+                            </option>
+
+                            <option value="Apartment">
+                                Apartment
+                            </option>
+
+                            <option value="Townhouse">
+                                Townhouse
+                            </option>
+
+                            <option value="Land">
+                                Land
+                            </option>
+
+                            <option value="Commercial">
+                                Commercial
+                            </option>
+
                         </select>
+
                     </div>
 
+
                     <div class="field full">
-                        <label for="propertyTitle">Property title</label>
+
+                        <label for="propertyTitle">
+                            Property title
+                        </label>
 
                         <input
                             type="text"
@@ -386,27 +467,68 @@
                             placeholder="Example: Modern 3 Bedroom Family Home"
                             required
                         >
+
                     </div>
 
+
                     <div class="field">
-                        <label for="province">Province</label>
+
+                        <label for="province">
+                            Province
+                        </label>
 
                         <select id="province" required>
-                            <option value="">Select province</option>
-                            <option>Gauteng</option>
-                            <option>Western Cape</option>
-                            <option>KwaZulu-Natal</option>
-                            <option>Eastern Cape</option>
-                            <option>Free State</option>
-                            <option>Limpopo</option>
-                            <option>Mpumalanga</option>
-                            <option>North West</option>
-                            <option>Northern Cape</option>
+
+                            <option value="">
+                                Select province
+                            </option>
+
+                            <option value="Gauteng">
+                                Gauteng
+                            </option>
+
+                            <option value="Western Cape">
+                                Western Cape
+                            </option>
+
+                            <option value="KwaZulu-Natal">
+                                KwaZulu-Natal
+                            </option>
+
+                            <option value="Eastern Cape">
+                                Eastern Cape
+                            </option>
+
+                            <option value="Free State">
+                                Free State
+                            </option>
+
+                            <option value="Limpopo">
+                                Limpopo
+                            </option>
+
+                            <option value="Mpumalanga">
+                                Mpumalanga
+                            </option>
+
+                            <option value="North West">
+                                North West
+                            </option>
+
+                            <option value="Northern Cape">
+                                Northern Cape
+                            </option>
+
                         </select>
+
                     </div>
 
+
                     <div class="field">
-                        <label for="city">City</label>
+
+                        <label for="city">
+                            City
+                        </label>
 
                         <input
                             type="text"
@@ -414,10 +536,30 @@
                             placeholder="Example: Johannesburg"
                             required
                         >
+
                     </div>
 
-                    <div class="field full">
-                        <label for="address">Address</label>
+
+                    <div class="field">
+
+                        <label for="suburb">
+                            Suburb
+                        </label>
+
+                        <input
+                            type="text"
+                            id="suburb"
+                            placeholder="Example: Sandton"
+                        >
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="address">
+                            Address
+                        </label>
 
                         <input
                             type="text"
@@ -425,10 +567,15 @@
                             placeholder="Property address"
                             required
                         >
+
                     </div>
 
+
                     <div class="field">
-                        <label for="price">Price</label>
+
+                        <label for="price">
+                            Price
+                        </label>
 
                         <input
                             type="number"
@@ -437,10 +584,15 @@
                             min="0"
                             required
                         >
+
                     </div>
 
+
                     <div class="field">
-                        <label for="propertySize">Property size (m²)</label>
+
+                        <label for="propertySize">
+                            Property size (m²)
+                        </label>
 
                         <input
                             type="number"
@@ -448,10 +600,31 @@
                             placeholder="Example: 180"
                             min="0"
                         >
+
                     </div>
 
+
                     <div class="field">
-                        <label for="bedrooms">Bedrooms</label>
+
+                        <label for="landSize">
+                            Land size (m²)
+                        </label>
+
+                        <input
+                            type="number"
+                            id="landSize"
+                            placeholder="Example: 500"
+                            min="0"
+                        >
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="bedrooms">
+                            Bedrooms
+                        </label>
 
                         <input
                             type="number"
@@ -459,10 +632,15 @@
                             placeholder="Example: 3"
                             min="0"
                         >
+
                     </div>
 
+
                     <div class="field">
-                        <label for="bathrooms">Bathrooms</label>
+
+                        <label for="bathrooms">
+                            Bathrooms
+                        </label>
 
                         <input
                             type="number"
@@ -471,27 +649,38 @@
                             min="0"
                             step="0.5"
                         >
+
                     </div>
 
+
                     <div class="field full">
-                        <label for="description">Description</label>
+
+                        <label for="description">
+                            Description
+                        </label>
 
                         <textarea
                             id="description"
                             placeholder="Describe the property, features, location and anything else buyers or tenants should know."
                         ></textarea>
+
                     </div>
 
                 </div>
+
             </div>
 
 
+            <!-- PHOTOS -->
+
             <div class="section">
 
-                <h2 class="section-title">Property photos</h2>
+                <h2 class="section-title">
+                    Property photos
+                </h2>
 
                 <p class="section-description">
-                    Select photos of your property. Photo storage will be connected next.
+                    Select photos of your property. The photos can be previewed here.
                 </p>
 
                 <div class="photo-box">
@@ -510,14 +699,21 @@
 
                 </div>
 
-                <div id="preview" class="preview"></div>
+                <div
+                    id="preview"
+                    class="preview"
+                ></div>
 
             </div>
 
 
+            <!-- CONTACT -->
+
             <div class="section">
 
-                <h2 class="section-title">Your contact information</h2>
+                <h2 class="section-title">
+                    Your contact information
+                </h2>
 
                 <p class="section-description">
                     Buyers or tenants will use this information to contact you.
@@ -525,8 +721,12 @@
 
                 <div class="grid">
 
+
                     <div class="field">
-                        <label for="sellerName">Full name</label>
+
+                        <label for="sellerName">
+                            Full name
+                        </label>
 
                         <input
                             type="text"
@@ -534,10 +734,15 @@
                             placeholder="Your full name"
                             required
                         >
+
                     </div>
 
+
                     <div class="field">
-                        <label for="sellerPhone">Phone number</label>
+
+                        <label for="sellerPhone">
+                            Phone number
+                        </label>
 
                         <input
                             type="tel"
@@ -545,10 +750,15 @@
                             placeholder="Example: 0712345678"
                             required
                         >
+
                     </div>
 
+
                     <div class="field full">
-                        <label for="sellerEmail">Email address</label>
+
+                        <label for="sellerEmail">
+                            Email address
+                        </label>
 
                         <input
                             type="email"
@@ -556,6 +766,7 @@
                             placeholder="Example: you@example.com"
                             required
                         >
+
                     </div>
 
                 </div>
@@ -563,10 +774,12 @@
             </div>
 
 
+            <!-- SUBMIT -->
+
             <div class="submit-area">
 
                 <p>
-                    Your listing will be saved to PropertyLink.
+                    Your listing will be saved to Habita.
                 </p>
 
                 <button
@@ -579,194 +792,400 @@
 
             </div>
 
+
         </form>
 
     </div>
 
 </div>
 
+
 <footer>
-    © 2026 PropertyLink. All rights reserved.
+    © 2026 Habita. All rights reserved.
 </footer>
 
 
 <script>
 
-    const SUPABASE_URL = "https://aamkntdlxrlsrmuryhqi.supabase.co";
+    /* ==============================
+       SUPABASE
+    ============================== */
 
-    const SUPABASE_KEY = "sb_publishable__0IBE154tO0LDKrlmjXvHQ_FA4QpgNL";
+    const SUPABASE_URL =
+        "https://aamkntdlxrlsrmuryhqi.supabase.co";
 
-    const supabaseClient = window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_KEY
-    );
+    const SUPABASE_KEY =
+        "sb_publishable__0IBE154tO0LDKrlmjXvHQ_FA4QpgNL";
 
+    const supabaseClient =
+        window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_KEY
+        );
+
+
+    /* ==============================
+       PHOTO PREVIEW
+    ============================== */
 
     function previewPhotos() {
 
-        const files = document.getElementById("photos").files;
+        const files =
+            document.getElementById("photos").files;
 
-        const preview = document.getElementById("preview");
+        const preview =
+            document.getElementById("preview");
 
         preview.innerHTML = "";
 
+
         for (let i = 0; i < files.length; i++) {
 
-            const reader = new FileReader();
+            const reader =
+                new FileReader();
+
 
             reader.onload = function(event) {
 
-                const image = document.createElement("img");
+                const image =
+                    document.createElement("img");
 
-                image.src = event.target.result;
+                image.src =
+                    event.target.result;
 
                 preview.appendChild(image);
 
             };
 
+
             reader.readAsDataURL(files[i]);
+
         }
+
     }
 
 
+    /* ==============================
+       MESSAGE
+    ============================== */
+
     function showMessage(text, type) {
 
-        const message = document.getElementById("message");
+        const message =
+            document.getElementById("message");
 
-        message.textContent = text;
+        message.textContent =
+            text;
 
-        message.className = "message " + type;
+        message.className =
+            "message " + type;
 
         window.scrollTo({
             top: 0,
             behavior: "smooth"
         });
+
     }
 
 
-    document.getElementById("propertyForm").addEventListener(
-        "submit",
-        async function(event) {
+    /* ==============================
+       FORM SUBMISSION
+    ============================== */
 
-            event.preventDefault();
+    document
+        .getElementById("propertyForm")
+        .addEventListener(
+            "submit",
+            async function(event) {
 
-            const submitButton =
-                document.getElementById("submitButton");
-
-            submitButton.disabled = true;
-
-            submitButton.textContent = "Publishing...";
-
-
-            const property = {
-
-                title:
-                    document.getElementById("propertyTitle").value.trim(),
-
-                listing_type:
-                    document.getElementById("listingType").value,
-
-                property_type:
-                    document.getElementById("propertyType").value,
-
-                province:
-                    document.getElementById("province").value,
-
-                city:
-                    document.getElementById("city").value.trim(),
-
-                address:
-                    document.getElementById("address").value.trim(),
-
-                price:
-                    Number(document.getElementById("price").value),
-
-                property_size:
-                    document.getElementById("propertySize").value
-                    ? Number(document.getElementById("propertySize").value)
-                    : null,
-
-                bedrooms:
-                    document.getElementById("bedrooms").value
-                    ? Number(document.getElementById("bedrooms").value)
-                    : null,
-
-                bathrooms:
-                    document.getElementById("bathrooms").value
-                    ? Number(document.getElementById("bathrooms").value)
-                    : null,
-
-                description:
-                    document.getElementById("description").value.trim()
-                    || null,
-
-                seller_name:
-                    document.getElementById("sellerName").value.trim(),
-
-                seller_phone:
-                    document.getElementById("sellerPhone").value.trim(),
-
-                seller_email:
-                    document.getElementById("sellerEmail").value.trim(),
-
-                status: "published"
-            };
+                event.preventDefault();
 
 
-            try {
-
-                const { data, error } =
-                    await supabaseClient
-                        .from("properties")
-                        .insert([property])
-                        .select();
+                const submitButton =
+                    document.getElementById(
+                        "submitButton"
+                    );
 
 
-                if (error) {
-
-                    console.error(error);
-
-                    throw error;
-                }
-
-
-                showMessage(
-                    "Property listing created successfully. Your property has been saved to PropertyLink.",
-                    "success"
-                );
-
-
-                document.getElementById("propertyForm").reset();
-
-                document.getElementById("preview").innerHTML = "";
-
-
-                console.log("Saved property:", data);
-
-            }
-
-            catch (error) {
-
-                console.error("Property submission error:", error);
-
-                showMessage(
-                    "Could not create the property listing: " + error.message,
-                    "error"
-                );
-
-            }
-
-            finally {
-
-                submitButton.disabled = false;
+                submitButton.disabled =
+                    true;
 
                 submitButton.textContent =
-                    "Publish Property Listing";
+                    "Publishing...";
+
+
+                /*
+                    IMPORTANT:
+
+                    Your Supabase table uses
+                    property_sizE with a capital E.
+
+                    We therefore use property_sizE
+                    instead of property_size.
+                */
+
+
+                const property = {
+
+                    title:
+                        document
+                            .getElementById(
+                                "propertyTitle"
+                            )
+                            .value
+                            .trim(),
+
+
+                    listing_type:
+                        document
+                            .getElementById(
+                                "listingType"
+                            )
+                            .value,
+
+
+                    property_type:
+                        document
+                            .getElementById(
+                                "propertyType"
+                            )
+                            .value,
+
+
+                    province:
+                        document
+                            .getElementById(
+                                "province"
+                            )
+                            .value,
+
+
+                    city:
+                        document
+                            .getElementById(
+                                "city"
+                            )
+                            .value
+                            .trim(),
+
+
+                    suburb:
+                        document
+                            .getElementById(
+                                "suburb"
+                            )
+                            .value
+                            .trim()
+                            || null,
+
+
+                    address:
+                        document
+                            .getElementById(
+                                "address"
+                            )
+                            .value
+                            .trim(),
+
+
+                    price:
+                        Number(
+                            document
+                                .getElementById(
+                                    "price"
+                                )
+                                .value
+                        ),
+
+
+                    property_sizE:
+                        document
+                            .getElementById(
+                                "propertySize"
+                            )
+                            .value
+                            ? Number(
+                                document
+                                    .getElementById(
+                                        "propertySize"
+                                    )
+                                    .value
+                            )
+                            : null,
+
+
+                    land_size:
+                        document
+                            .getElementById(
+                                "landSize"
+                            )
+                            .value
+                            ? Number(
+                                document
+                                    .getElementById(
+                                        "landSize"
+                                    )
+                                    .value
+                            )
+                            : null,
+
+
+                    bedrooms:
+                        document
+                            .getElementById(
+                                "bedrooms"
+                            )
+                            .value
+                            ? Number(
+                                document
+                                    .getElementById(
+                                        "bedrooms"
+                                    )
+                                    .value
+                            )
+                            : null,
+
+
+                    bathrooms:
+                        document
+                            .getElementById(
+                                "bathrooms"
+                            )
+                            .value
+                            ? Number(
+                                document
+                                    .getElementById(
+                                        "bathrooms"
+                                    )
+                                    .value
+                            )
+                            : null,
+
+
+                    description:
+                        document
+                            .getElementById(
+                                "description"
+                            )
+                            .value
+                            .trim()
+                            || null,
+
+
+                    seller_name:
+                        document
+                            .getElementById(
+                                "sellerName"
+                            )
+                            .value
+                            .trim(),
+
+
+                    seller_phone:
+                        document
+                            .getElementById(
+                                "sellerPhone"
+                            )
+                            .value
+                            .trim(),
+
+
+                    seller_email:
+                        document
+                            .getElementById(
+                                "sellerEmail"
+                            )
+                            .value
+                            .trim(),
+
+
+                    status:
+                        "published"
+
+                };
+
+
+                try {
+
+                    const {
+                        data,
+                        error
+                    } =
+                        await supabaseClient
+                            .from("properties")
+                            .insert([
+                                property
+                            ])
+                            .select();
+
+
+                    if (error) {
+
+                        console.error(
+                            "Supabase error:",
+                            error
+                        );
+
+                        throw error;
+
+                    }
+
+
+                    showMessage(
+                        "Property listing created successfully. Your property has been added to Habita.",
+                        "success"
+                    );
+
+
+                    document
+                        .getElementById(
+                            "propertyForm"
+                        )
+                        .reset();
+
+
+                    document
+                        .getElementById(
+                            "preview"
+                        )
+                        .innerHTML = "";
+
+
+                    console.log(
+                        "Saved property:",
+                        data
+                    );
+
+                }
+
+                catch (error) {
+
+                    console.error(
+                        "Property submission error:",
+                        error
+                    );
+
+
+                    showMessage(
+                        "Could not create the property listing: " +
+                        error.message,
+                        "error"
+                    );
+
+                }
+
+                finally {
+
+                    submitButton.disabled =
+                        false;
+
+                    submitButton.textContent =
+                        "Publish Property Listing";
+
+                }
 
             }
-
-        }
-    );
+        );
 
 </script>
 
