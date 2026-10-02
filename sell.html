@@ -1,1193 +1,1190 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>List Your Property | Habita</title>
+  <title>List Your Property | Habita</title>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"
+    rel="stylesheet"
+  >
 
-    <link
-        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap"
-        rel="stylesheet"
-    >
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-        body {
-            font-family: "DM Sans", sans-serif;
-            background: #f8f7f3;
-            color: #20231f;
-            line-height: 1.6;
-        }
+    body {
+      background: #f8f7f3;
+      color: #263025;
+      font-family: "DM Sans", sans-serif;
+    }
 
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
+    nav {
+      height: 76px;
+      background: #f8f7f3;
+      border-bottom: 1px solid #deded7;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 6%;
+    }
 
-        nav {
-            height: 78px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 6%;
-            background: #f8f7f3;
-            border-bottom: 1px solid #e4e2dc;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
+    .logo {
+      font-family: "Playfair Display", serif;
+      font-size: 30px;
+      font-weight: 700;
+      color: #68755a;
+      text-decoration: none;
+    }
 
-        .logo {
-            font-family: "Playfair Display", serif;
-            font-size: 28px;
-            font-weight: 600;
-        }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
 
-        .nav-links {
-            display: flex;
-            gap: 30px;
-            align-items: center;
-        }
+    .nav-links a {
+      text-decoration: none;
+      color: #263025;
+      font-size: 14px;
+      font-weight: 500;
+    }
 
-        .nav-links a {
-            font-size: 14px;
-            color: #4f544c;
-        }
+    .nav-links a:hover {
+      color: #68755a;
+    }
 
-        .nav-links a:hover {
-            color: #68755a;
-        }
+    .nav-button {
+      background: #68755a;
+      color: white !important;
+      padding: 12px 19px;
+      border-radius: 7px;
+    }
 
-        .nav-button {
-            padding: 12px 20px;
-            border-radius: 6px;
-            background: #68755a;
-            color: white !important;
-        }
+    .hero {
+      max-width: 1100px;
+      margin: 60px auto 35px;
+      padding: 0 25px;
+    }
 
-        .hero {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 75px 25px 45px;
-        }
+    .hero h1 {
+      font-family: "Playfair Display", serif;
+      font-size: 48px;
+      color: #263025;
+      margin-bottom: 12px;
+    }
 
-        .hero span {
-            color: #68755a;
-            font-weight: 600;
-            font-size: 13px;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-        }
+    .hero p {
+      color: #697064;
+      font-size: 17px;
+      max-width: 650px;
+      line-height: 1.6;
+    }
 
-        .hero h1 {
-            font-family: "Playfair Display", serif;
-            font-size: 54px;
-            line-height: 1.1;
-            max-width: 700px;
-            margin: 14px 0;
-        }
+    .form-container {
+      max-width: 1100px;
+      margin: 0 auto 70px;
+      padding: 0 25px;
+    }
 
-        .hero p {
-            color: #686c64;
-            max-width: 620px;
-            font-size: 17px;
-        }
+    .form-card {
+      background: white;
+      border: 1px solid #e1e1da;
+      border-radius: 14px;
+      padding: 35px;
+      box-shadow: 0 8px 30px rgba(50, 60, 45, 0.05);
+    }
 
-        .form-container {
-            max-width: 1100px;
-            margin: 0 auto 80px;
-            padding: 0 25px;
-        }
+    .section {
+      margin-bottom: 40px;
+    }
 
-        .form-card {
-            background: white;
-            border: 1px solid #e4e2dc;
-            border-radius: 12px;
-            padding: 40px;
-        }
+    .section-title {
+      font-family: "Playfair Display", serif;
+      font-size: 25px;
+      margin-bottom: 22px;
+      color: #263025;
+    }
 
-        .section {
-            margin-bottom: 42px;
-        }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
 
-        .section-title {
-            font-family: "Playfair Display", serif;
-            font-size: 28px;
-            margin-bottom: 8px;
-        }
+    .full {
+      grid-column: 1 / -1;
+    }
 
-        .section-description {
-            color: #777b73;
-            font-size: 14px;
-            margin-bottom: 25px;
-        }
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #42483e;
+    }
 
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-        }
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 13px 14px;
+      border: 1px solid #d7d9d1;
+      border-radius: 7px;
+      background: #fff;
+      color: #263025;
+      font-family: "DM Sans", sans-serif;
+      font-size: 14px;
+      outline: none;
+    }
 
-        .field {
-            display: flex;
-            flex-direction: column;
-        }
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: #68755a;
+      box-shadow: 0 0 0 3px rgba(104, 117, 90, 0.10);
+    }
 
-        .field.full {
-            grid-column: 1 / -1;
-        }
+    textarea {
+      min-height: 140px;
+      resize: vertical;
+    }
 
-        label {
-            font-size: 13px;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
+    .photo-box {
+      border: 2px dashed #c8cdc1;
+      border-radius: 10px;
+      padding: 30px;
+      text-align: center;
+      background: #fafaf7;
+    }
 
-        input,
-        select,
-        textarea {
-            width: 100%;
-            border: 1px solid #d8d6cf;
-            background: #fff;
-            border-radius: 6px;
-            padding: 14px;
-            font-family: "DM Sans", sans-serif;
-            font-size: 14px;
-            color: #20231f;
-            outline: none;
-        }
+    .photo-box p {
+      color: #697064;
+      font-size: 14px;
+      margin-bottom: 15px;
+    }
 
-        input:focus,
-        select:focus,
-        textarea:focus {
-            border-color: #68755a;
-        }
+    .photo-box input {
+      border: none;
+      padding: 0;
+      background: transparent;
+    }
 
-        textarea {
-            min-height: 150px;
-            resize: vertical;
-        }
+    .photo-preview {
+      display: none;
+      margin-top: 20px;
+    }
 
-        .photo-box {
-            border: 2px dashed #d8d6cf;
-            border-radius: 8px;
-            padding: 35px;
-            text-align: center;
-            background: #faf9f6;
-        }
+    .photo-preview img {
+      width: 220px;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+    }
 
-        .photo-box p {
-            color: #777b73;
-            font-size: 14px;
-            margin-bottom: 15px;
-        }
+    .photo-note {
+      margin-top: 10px;
+      font-size: 12px;
+      color: #777;
+    }
 
-        .photo-box input {
-            border: none;
-            padding: 0;
-            background: transparent;
-        }
+    .submit-area {
+      border-top: 1px solid #e3e3dc;
+      padding-top: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
 
-        .preview {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
-            margin-top: 20px;
-        }
+    .submit-button {
+      border: none;
+      background: #68755a;
+      color: white;
+      padding: 15px 28px;
+      border-radius: 7px;
+      font-family: "DM Sans", sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+    }
 
-        .preview img {
-            width: 100%;
-            height: 130px;
-            object-fit: cover;
-            border-radius: 6px;
-        }
+    .submit-button:hover {
+      background: #59654d;
+    }
 
-        .submit-area {
-            border-top: 1px solid #e4e2dc;
-            padding-top: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 20px;
-        }
+    .submit-button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
 
-        .submit-area p {
-            color: #777b73;
-            font-size: 13px;
-        }
+    .status {
+      font-size: 14px;
+      line-height: 1.5;
+    }
 
-        .submit-button {
-            border: none;
-            background: #68755a;
-            color: white;
-            padding: 16px 28px;
-            border-radius: 6px;
-            font-family: "DM Sans", sans-serif;
-            font-weight: 600;
-            cursor: pointer;
-            font-size: 14px;
-        }
+    .success {
+      color: #4e7045;
+    }
 
-        .submit-button:hover {
-            background: #566248;
-        }
+    .error {
+      color: #a44949;
+    }
 
-        .submit-button:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
+    @media (max-width: 750px) {
 
-        .message {
-            display: none;
-            margin-bottom: 25px;
-            padding: 15px;
-            border-radius: 6px;
-            font-size: 14px;
-        }
+      nav {
+        padding: 0 20px;
+      }
 
-        .message.success {
-            display: block;
-            background: #edf4e9;
-            color: #405137;
-            border: 1px solid #cddbc5;
-        }
+      .nav-links {
+        gap: 12px;
+      }
 
-        .message.error {
-            display: block;
-            background: #f8eded;
-            color: #8a4141;
-            border: 1px solid #e5caca;
-        }
+      .nav-links a:not(.nav-button) {
+        display: none;
+      }
 
-        footer {
-            border-top: 1px solid #e4e2dc;
-            padding: 35px 6%;
-            text-align: center;
-            color: #777b73;
-            font-size: 13px;
-        }
+      .hero {
+        margin-top: 40px;
+      }
 
-        @media (max-width: 800px) {
+      .hero h1 {
+        font-size: 38px;
+      }
 
-            .nav-links {
-                display: none;
-            }
+      .form-card {
+        padding: 22px;
+      }
 
-            .hero h1 {
-                font-size: 40px;
-            }
+      .grid {
+        grid-template-columns: 1fr;
+      }
 
-            .form-card {
-                padding: 25px;
-            }
+      .full {
+        grid-column: auto;
+      }
 
-            .grid {
-                grid-template-columns: 1fr;
-            }
+      .submit-area {
+        flex-direction: column;
+        align-items: stretch;
+      }
 
-            .field.full {
-                grid-column: auto;
-            }
-
-            .preview {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .submit-area {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .submit-button {
-                width: 100%;
-            }
-        }
-    </style>
+      .submit-button {
+        width: 100%;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<nav>
+  <nav>
 
     <a href="index.html" class="logo">
-        Habita
+      Habita
     </a>
 
     <div class="nav-links">
 
-        <a href="properties.html">
-            Buy
-        </a>
+      <a href="properties.html">Buy</a>
 
-        <a href="properties.html">
-            Rent
-        </a>
+      <a href="properties.html?listing_type=Rent">
+        Rent
+      </a>
 
-        <a href="properties.html">
-            View all
-        </a>
+      <a href="properties.html">
+        View all
+      </a>
 
-        <a href="sell.html">
-            Sell
-        </a>
+      <a href="sell.html">
+        Sell
+      </a>
 
-        <a href="sell.html" class="nav-button">
-            List Your Property
-        </a>
+      <a href="sell.html" class="nav-button">
+        List Your Property
+      </a>
 
     </div>
 
-</nav>
+  </nav>
 
 
-<section class="hero">
-
-    <span>
-        Sell or rent your property
-    </span>
+  <section class="hero">
 
     <h1>
-        Put your property on the market.
+      List your property
     </h1>
 
     <p>
-        Create a property listing on Habita and connect your property
-        with people looking to buy or rent.
+      Reach people looking for their next home,
+      investment or rental property across South Africa.
     </p>
 
-</section>
+  </section>
 
 
-<div class="form-container">
+  <div class="form-container">
 
-    <div class="form-card">
+    <form id="propertyForm" class="form-card">
 
-        <div id="message" class="message"></div>
 
-        <form id="propertyForm">
+      <!-- LISTING -->
 
+      <div class="section">
 
-            <!-- PROPERTY INFORMATION -->
+        <h2 class="section-title">
+          Listing information
+        </h2>
 
-            <div class="section">
+        <div class="grid">
 
-                <h2 class="section-title">
-                    Property information
-                </h2>
+          <div>
 
-                <p class="section-description">
-                    Tell potential buyers or tenants about the property.
-                </p>
+            <label for="listing_type">
+              Listing type
+            </label>
 
-                <div class="grid">
+            <select id="listing_type" required>
 
+              <option value="">
+                Select listing type
+              </option>
 
-                    <div class="field">
+              <option value="Sale">
+                For Sale
+              </option>
 
-                        <label for="listingType">
-                            Listing type
-                        </label>
+              <option value="Rent">
+                For Rent
+              </option>
 
-                        <select id="listingType" required>
+            </select>
 
-                            <option value="">
-                                Select
-                            </option>
+          </div>
 
-                            <option value="For Sale">
-                                For Sale
-                            </option>
 
-                            <option value="For Rent">
-                                For Rent
-                            </option>
+          <div>
 
-                        </select>
+            <label for="property_type">
+              Property type
+            </label>
 
-                    </div>
+            <select id="property_type" required>
 
+              <option value="">
+                Select property type
+              </option>
 
-                    <div class="field">
+              <option value="House">
+                House
+              </option>
 
-                        <label for="propertyType">
-                            Property type
-                        </label>
+              <option value="Apartment">
+                Apartment
+              </option>
 
-                        <select id="propertyType" required>
+              <option value="Townhouse">
+                Townhouse
+              </option>
 
-                            <option value="">
-                                Select
-                            </option>
+              <option value="Vacant Land">
+                Vacant Land
+              </option>
 
-                            <option value="House">
-                                House
-                            </option>
+              <option value="Commercial">
+                Commercial
+              </option>
 
-                            <option value="Apartment">
-                                Apartment
-                            </option>
+              <option value="Farm">
+                Farm
+              </option>
 
-                            <option value="Townhouse">
-                                Townhouse
-                            </option>
+              <option value="Other">
+                Other
+              </option>
 
-                            <option value="Land">
-                                Land
-                            </option>
+            </select>
 
-                            <option value="Commercial">
-                                Commercial
-                            </option>
+          </div>
 
-                        </select>
 
-                    </div>
+          <div class="full">
 
+            <label for="title">
+              Property title
+            </label>
 
-                    <div class="field full">
+            <input
+              type="text"
+              id="title"
+              placeholder="Example: Modern 3 Bedroom Family Home"
+              required
+            >
 
-                        <label for="propertyTitle">
-                            Property title
-                        </label>
+          </div>
 
-                        <input
-                            type="text"
-                            id="propertyTitle"
-                            placeholder="Example: Modern 3 Bedroom Family Home"
-                            required
-                        >
+        </div>
 
-                    </div>
+      </div>
 
 
-                    <div class="field">
+      <!-- LOCATION -->
 
-                        <label for="province">
-                            Province
-                        </label>
+      <div class="section">
 
-                        <select id="province" required>
+        <h2 class="section-title">
+          Location
+        </h2>
 
-                            <option value="">
-                                Select province
-                            </option>
+        <div class="grid">
 
-                            <option value="Gauteng">
-                                Gauteng
-                            </option>
+          <div>
 
-                            <option value="Western Cape">
-                                Western Cape
-                            </option>
+            <label for="province">
+              Province
+            </label>
 
-                            <option value="KwaZulu-Natal">
-                                KwaZulu-Natal
-                            </option>
+            <input
+              type="text"
+              id="province"
+              placeholder="Example: Gauteng"
+              required
+            >
 
-                            <option value="Eastern Cape">
-                                Eastern Cape
-                            </option>
+          </div>
 
-                            <option value="Free State">
-                                Free State
-                            </option>
 
-                            <option value="Limpopo">
-                                Limpopo
-                            </option>
+          <div>
 
-                            <option value="Mpumalanga">
-                                Mpumalanga
-                            </option>
+            <label for="city">
+              City
+            </label>
 
-                            <option value="North West">
-                                North West
-                            </option>
+            <input
+              type="text"
+              id="city"
+              placeholder="Example: Johannesburg"
+              required
+            >
 
-                            <option value="Northern Cape">
-                                Northern Cape
-                            </option>
+          </div>
 
-                        </select>
 
-                    </div>
+          <div class="full">
 
+            <label for="address">
+              Address
+            </label>
 
-                    <div class="field">
+            <input
+              type="text"
+              id="address"
+              placeholder="Street address"
+            >
 
-                        <label for="city">
-                            City
-                        </label>
+          </div>
 
-                        <input
-                            type="text"
-                            id="city"
-                            placeholder="Example: Johannesburg"
-                            required
-                        >
+        </div>
 
-                    </div>
+      </div>
 
 
-                    <div class="field">
+      <!-- PROPERTY DETAILS -->
 
-                        <label for="suburb">
-                            Suburb
-                        </label>
+      <div class="section">
 
-                        <input
-                            type="text"
-                            id="suburb"
-                            placeholder="Example: Sandton"
-                        >
+        <h2 class="section-title">
+          Property details
+        </h2>
 
-                    </div>
+        <div class="grid">
 
+          <div>
 
-                    <div class="field">
+            <label for="price">
+              Price
+            </label>
 
-                        <label for="address">
-                            Address
-                        </label>
+            <input
+              type="number"
+              id="price"
+              placeholder="Example: 1500000"
+              min="0"
+              required
+            >
 
-                        <input
-                            type="text"
-                            id="address"
-                            placeholder="Property address"
-                            required
-                        >
+          </div>
 
-                    </div>
 
+          <div>
 
-                    <div class="field">
+            <label for="property_size">
+              Property size (m²)
+            </label>
 
-                        <label for="price">
-                            Price
-                        </label>
+            <input
+              type="number"
+              id="property_size"
+              placeholder="Example: 180"
+              min="0"
+            >
 
-                        <input
-                            type="number"
-                            id="price"
-                            placeholder="Example: 1850000"
-                            min="0"
-                            required
-                        >
+          </div>
 
-                    </div>
 
+          <div>
 
-                    <div class="field">
+            <label for="bedrooms">
+              Bedrooms
+            </label>
 
-                        <label for="propertySize">
-                            Property size (m²)
-                        </label>
+            <input
+              type="number"
+              id="bedrooms"
+              placeholder="Example: 3"
+              min="0"
+            >
 
-                        <input
-                            type="number"
-                            id="propertySize"
-                            placeholder="Example: 180"
-                            min="0"
-                        >
+          </div>
 
-                    </div>
 
+          <div>
 
-                    <div class="field">
+            <label for="bathrooms">
+              Bathrooms
+            </label>
 
-                        <label for="landSize">
-                            Land size (m²)
-                        </label>
+            <input
+              type="number"
+              id="bathrooms"
+              placeholder="Example: 2"
+              min="0"
+            >
 
-                        <input
-                            type="number"
-                            id="landSize"
-                            placeholder="Example: 500"
-                            min="0"
-                        >
+          </div>
 
-                    </div>
 
+          <div class="full">
 
-                    <div class="field">
+            <label for="description">
+              Description
+            </label>
 
-                        <label for="bedrooms">
-                            Bedrooms
-                        </label>
+            <textarea
+              id="description"
+              placeholder="Describe the property, its features, location and anything buyers or tenants should know."
+              required
+            ></textarea>
 
-                        <input
-                            type="number"
-                            id="bedrooms"
-                            placeholder="Example: 3"
-                            min="0"
-                        >
+          </div>
 
-                    </div>
+        </div>
 
+      </div>
 
-                    <div class="field">
 
-                        <label for="bathrooms">
-                            Bathrooms
-                        </label>
+      <!-- PHOTO -->
 
-                        <input
-                            type="number"
-                            id="bathrooms"
-                            placeholder="Example: 2"
-                            min="0"
-                            step="0.5"
-                        >
+      <div class="section">
 
-                    </div>
+        <h2 class="section-title">
+          Property photo
+        </h2>
 
+        <div class="photo-box">
 
-                    <div class="field full">
+          <p>
+            Upload a main photo for your property.
+          </p>
 
-                        <label for="description">
-                            Description
-                        </label>
+          <input
+            type="file"
+            id="photos"
+            accept="image/jpeg,image/png,image/webp"
+          >
 
-                        <textarea
-                            id="description"
-                            placeholder="Describe the property, features, location and anything else buyers or tenants should know."
-                        ></textarea>
+          <div
+            class="photo-preview"
+            id="photoPreview"
+          >
 
-                    </div>
+            <img
+              id="previewImage"
+              src=""
+              alt="Property preview"
+            >
 
-                </div>
-
+            <div class="photo-note">
+              This will be used as the main property image.
             </div>
 
+          </div>
 
-            <!-- PHOTOS -->
+          <p class="photo-note">
+            JPG, PNG or WebP · Maximum 10 MB
+          </p>
 
-            <div class="section">
+        </div>
 
-                <h2 class="section-title">
-                    Property photos
-                </h2>
-
-                <p class="section-description">
-                    Select photos of your property. The photos can be previewed here.
-                </p>
-
-                <div class="photo-box">
-
-                    <p>
-                        Choose property photos from your device.
-                    </p>
-
-                    <input
-                        type="file"
-                        id="photos"
-                        accept="image/*"
-                        multiple
-                        onchange="previewPhotos()"
-                    >
-
-                </div>
-
-                <div
-                    id="preview"
-                    class="preview"
-                ></div>
-
-            </div>
+      </div>
 
 
-            <!-- CONTACT -->
+      <!-- SELLER -->
 
-            <div class="section">
+      <div class="section">
 
-                <h2 class="section-title">
-                    Your contact information
-                </h2>
+        <h2 class="section-title">
+          Your contact information
+        </h2>
 
-                <p class="section-description">
-                    Buyers or tenants will use this information to contact you.
-                </p>
+        <div class="grid">
 
-                <div class="grid">
+          <div>
 
+            <label for="seller_name">
+              Full name
+            </label>
 
-                    <div class="field">
+            <input
+              type="text"
+              id="seller_name"
+              placeholder="Your full name"
+              required
+            >
 
-                        <label for="sellerName">
-                            Full name
-                        </label>
-
-                        <input
-                            type="text"
-                            id="sellerName"
-                            placeholder="Your full name"
-                            required
-                        >
-
-                    </div>
+          </div>
 
 
-                    <div class="field">
+          <div>
 
-                        <label for="sellerPhone">
-                            Phone number
-                        </label>
+            <label for="seller_phone">
+              Phone number
+            </label>
 
-                        <input
-                            type="tel"
-                            id="sellerPhone"
-                            placeholder="Example: 0712345678"
-                            required
-                        >
+            <input
+              type="tel"
+              id="seller_phone"
+              placeholder="Example: 082 123 4567"
+              required
+            >
 
-                    </div>
-
-
-                    <div class="field full">
-
-                        <label for="sellerEmail">
-                            Email address
-                        </label>
-
-                        <input
-                            type="email"
-                            id="sellerEmail"
-                            placeholder="Example: you@example.com"
-                            required
-                        >
-
-                    </div>
-
-                </div>
-
-            </div>
+          </div>
 
 
-            <!-- SUBMIT -->
+          <div class="full">
 
-            <div class="submit-area">
+            <label for="seller_email">
+              Email address
+            </label>
 
-                <p>
-                    Your listing will be saved to Habita.
-                </p>
+            <input
+              type="email"
+              id="seller_email"
+              placeholder="you@example.com"
+              required
+            >
 
-                <button
-                    type="submit"
-                    class="submit-button"
-                    id="submitButton"
-                >
-                    Publish Property Listing
-                </button>
+          </div>
 
-            </div>
+        </div>
 
-
-        </form>
-
-    </div>
-
-</div>
+      </div>
 
 
-<footer>
-    © 2026 Habita. All rights reserved.
-</footer>
+      <!-- SUBMIT -->
+
+      <div class="submit-area">
+
+        <div
+          id="statusMessage"
+          class="status"
+        ></div>
+
+        <button
+          type="submit"
+          id="submitButton"
+          class="submit-button"
+        >
+          Publish Property
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
 
 
-<script>
+  <script>
 
-    /* ==============================
+    /* ===============================
        SUPABASE
-    ============================== */
+    =============================== */
 
     const SUPABASE_URL =
-        "https://aamkntdlxrlsrmuryhqi.supabase.co";
+      "https://aamkntdlxrlsrmuryhqi.supabase.co";
 
     const SUPABASE_KEY =
-        "sb_publishable__0IBE154tO0LDKrlmjXvHQ_FA4QpgNL";
+      "sb_publishable__0IBE154tO0LDKrlmjXvHQ_FA4QpgNL";
 
     const supabaseClient =
-        window.supabase.createClient(
-            SUPABASE_URL,
-            SUPABASE_KEY
-        );
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+      );
 
 
-    /* ==============================
+    /* ===============================
+       ELEMENTS
+    =============================== */
+
+    const form =
+      document.getElementById("propertyForm");
+
+    const photoInput =
+      document.getElementById("photos");
+
+    const preview =
+      document.getElementById("photoPreview");
+
+    const previewImage =
+      document.getElementById("previewImage");
+
+    const statusMessage =
+      document.getElementById("statusMessage");
+
+    const submitButton =
+      document.getElementById("submitButton");
+
+
+    /* ===============================
        PHOTO PREVIEW
-    ============================== */
+    =============================== */
 
-    function previewPhotos() {
+    photoInput.addEventListener(
+      "change",
+      function () {
 
-        const files =
-            document.getElementById("photos").files;
+        const file = this.files[0];
 
-        const preview =
-            document.getElementById("preview");
+        if (!file) {
 
-        preview.innerHTML = "";
+          preview.style.display = "none";
 
-
-        for (let i = 0; i < files.length; i++) {
-
-            const reader =
-                new FileReader();
-
-
-            reader.onload = function(event) {
-
-                const image =
-                    document.createElement("img");
-
-                image.src =
-                    event.target.result;
-
-                preview.appendChild(image);
-
-            };
-
-
-            reader.readAsDataURL(files[i]);
+          return;
 
         }
 
-    }
 
+        const allowedTypes = [
+          "image/jpeg",
+          "image/png",
+          "image/webp"
+        ];
 
-    /* ==============================
-       MESSAGE
-    ============================== */
 
-    function showMessage(text, type) {
+        if (!allowedTypes.includes(file.type)) {
 
-        const message =
-            document.getElementById("message");
+          alert(
+            "Please select a JPG, PNG or WebP image."
+          );
 
-        message.textContent =
-            text;
+          this.value = "";
 
-        message.className =
-            "message " + type;
+          preview.style.display = "none";
 
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
+          return;
 
-    }
+        }
 
 
-    /* ==============================
-       FORM SUBMISSION
-    ============================== */
+        if (file.size > 10 * 1024 * 1024) {
 
-    document
-        .getElementById("propertyForm")
-        .addEventListener(
-            "submit",
-            async function(event) {
+          alert(
+            "The image must be smaller than 10 MB."
+          );
 
-                event.preventDefault();
+          this.value = "";
 
+          preview.style.display = "none";
 
-                const submitButton =
-                    document.getElementById(
-                        "submitButton"
-                    );
+          return;
 
+        }
 
-                submitButton.disabled =
-                    true;
 
-                submitButton.textContent =
-                    "Publishing...";
+        const reader =
+          new FileReader();
 
 
-                /*
-                    IMPORTANT:
+        reader.onload =
+          function (event) {
 
-                    Your Supabase table uses
-                    property_sizE with a capital E.
+            previewImage.src =
+              event.target.result;
 
-                    We therefore use property_sizE
-                    instead of property_size.
-                */
+            preview.style.display =
+              "block";
 
+          };
 
-                const property = {
 
-                    title:
-                        document
-                            .getElementById(
-                                "propertyTitle"
-                            )
-                            .value
-                            .trim(),
+        reader.readAsDataURL(file);
 
+      }
+    );
 
-                    listing_type:
-                        document
-                            .getElementById(
-                                "listingType"
-                            )
-                            .value,
-
-
-                    property_type:
-                        document
-                            .getElementById(
-                                "propertyType"
-                            )
-                            .value,
-
-
-                    province:
-                        document
-                            .getElementById(
-                                "province"
-                            )
-                            .value,
-
-
-                    city:
-                        document
-                            .getElementById(
-                                "city"
-                            )
-                            .value
-                            .trim(),
-
-
-                    suburb:
-                        document
-                            .getElementById(
-                                "suburb"
-                            )
-                            .value
-                            .trim()
-                            || null,
-
-
-                    address:
-                        document
-                            .getElementById(
-                                "address"
-                            )
-                            .value
-                            .trim(),
-
-
-                    price:
-                        Number(
-                            document
-                                .getElementById(
-                                    "price"
-                                )
-                                .value
-                        ),
-
-
-                    property_sizE:
-                        document
-                            .getElementById(
-                                "propertySize"
-                            )
-                            .value
-                            ? Number(
-                                document
-                                    .getElementById(
-                                        "propertySize"
-                                    )
-                                    .value
-                            )
-                            : null,
-
-
-                    land_size:
-                        document
-                            .getElementById(
-                                "landSize"
-                            )
-                            .value
-                            ? Number(
-                                document
-                                    .getElementById(
-                                        "landSize"
-                                    )
-                                    .value
-                            )
-                            : null,
-
-
-                    bedrooms:
-                        document
-                            .getElementById(
-                                "bedrooms"
-                            )
-                            .value
-                            ? Number(
-                                document
-                                    .getElementById(
-                                        "bedrooms"
-                                    )
-                                    .value
-                            )
-                            : null,
-
-
-                    bathrooms:
-                        document
-                            .getElementById(
-                                "bathrooms"
-                            )
-                            .value
-                            ? Number(
-                                document
-                                    .getElementById(
-                                        "bathrooms"
-                                    )
-                                    .value
-                            )
-                            : null,
-
-
-                    description:
-                        document
-                            .getElementById(
-                                "description"
-                            )
-                            .value
-                            .trim()
-                            || null,
-
-
-                    seller_name:
-                        document
-                            .getElementById(
-                                "sellerName"
-                            )
-                            .value
-                            .trim(),
-
-
-                    seller_phone:
-                        document
-                            .getElementById(
-                                "sellerPhone"
-                            )
-                            .value
-                            .trim(),
-
-
-                    seller_email:
-                        document
-                            .getElementById(
-                                "sellerEmail"
-                            )
-                            .value
-                            .trim(),
-
-
-                    status:
-                        "published"
-
-                };
-
-
-                try {
-
-                    const {
-                        data,
-                        error
-                    } =
-                        await supabaseClient
-                            .from("properties")
-                            .insert([
-                                property
-                            ])
-                            .select();
-
-
-                    if (error) {
-
-                        console.error(
-                            "Supabase error:",
-                            error
-                        );
-
-                        throw error;
-
-                    }
-
-
-                    showMessage(
-                        "Property listing created successfully. Your property has been added to Habita.",
-                        "success"
-                    );
-
-
-                    document
-                        .getElementById(
-                            "propertyForm"
-                        )
-                        .reset();
-
-
-                    document
-                        .getElementById(
-                            "preview"
-                        )
-                        .innerHTML = "";
-
-
-                    console.log(
-                        "Saved property:",
-                        data
-                    );
-
-                }
-
-                catch (error) {
-
-                    console.error(
-                        "Property submission error:",
-                        error
-                    );
-
-
-                    showMessage(
-                        "Could not create the property listing: " +
-                        error.message,
-                        "error"
-                    );
-
-                }
-
-                finally {
-
-                    submitButton.disabled =
-                        false;
-
-                    submitButton.textContent =
-                        "Publish Property Listing";
-
-                }
+
+    /* ===============================
+       SUBMIT
+    =============================== */
+
+    form.addEventListener(
+      "submit",
+      async function (event) {
+
+        event.preventDefault();
+
+
+        submitButton.disabled = true;
+
+        submitButton.textContent =
+          "Publishing...";
+
+        statusMessage.textContent = "";
+
+        statusMessage.className =
+          "status";
+
+
+        let uploadedFilePath = null;
+
+
+        try {
+
+          /* ---------------------------
+             FORM VALUES
+          --------------------------- */
+
+          const listingType =
+            document.getElementById(
+              "listing_type"
+            ).value;
+
+          const propertyType =
+            document.getElementById(
+              "property_type"
+            ).value;
+
+          const title =
+            document.getElementById(
+              "title"
+            ).value.trim();
+
+          const province =
+            document.getElementById(
+              "province"
+            ).value.trim();
+
+          const city =
+            document.getElementById(
+              "city"
+            ).value.trim();
+
+          const address =
+            document.getElementById(
+              "address"
+            ).value.trim();
+
+          const price =
+            document.getElementById(
+              "price"
+            ).value;
+
+          const propertySize =
+            document.getElementById(
+              "property_size"
+            ).value;
+
+          const bedrooms =
+            document.getElementById(
+              "bedrooms"
+            ).value;
+
+          const bathrooms =
+            document.getElementById(
+              "bathrooms"
+            ).value;
+
+          const description =
+            document.getElementById(
+              "description"
+            ).value.trim();
+
+          const sellerName =
+            document.getElementById(
+              "seller_name"
+            ).value.trim();
+
+          const sellerPhone =
+            document.getElementById(
+              "seller_phone"
+            ).value.trim();
+
+          const sellerEmail =
+            document.getElementById(
+              "seller_email"
+            ).value.trim();
+
+
+          /* ---------------------------
+             UPLOAD IMAGE
+          --------------------------- */
+
+          let imageUrl = null;
+
+          const file =
+            photoInput.files[0];
+
+
+          if (file) {
+
+            submitButton.textContent =
+              "Uploading photo...";
+
+
+            const allowedTypes = [
+              "image/jpeg",
+              "image/png",
+              "image/webp"
+            ];
+
+
+            if (
+              !allowedTypes.includes(
+                file.type
+              )
+            ) {
+
+              throw new Error(
+                "Only JPG, PNG and WebP images are allowed."
+              );
 
             }
-        );
 
-</script>
+
+            if (
+              file.size >
+              10 * 1024 * 1024
+            ) {
+
+              throw new Error(
+                "The image must be smaller than 10 MB."
+              );
+
+            }
+
+
+            const extension =
+              file.name
+                .split(".")
+                .pop()
+                .toLowerCase();
+
+
+            const uniqueName =
+              `${Date.now()}-${crypto.randomUUID()}.${extension}`;
+
+
+            uploadedFilePath =
+              `properties/${uniqueName}`;
+
+
+            const {
+              error: uploadError
+            } =
+              await supabaseClient
+                .storage
+                .from("property-images")
+                .upload(
+                  uploadedFilePath,
+                  file,
+                  {
+                    cacheControl: "3600",
+                    upsert: false,
+                    contentType: file.type
+                  }
+                );
+
+
+            if (uploadError) {
+
+              throw uploadError;
+
+            }
+
+
+            const {
+              data: publicUrlData
+            } =
+              supabaseClient
+                .storage
+                .from("property-images")
+                .getPublicUrl(
+                  uploadedFilePath
+                );
+
+
+            imageUrl =
+              publicUrlData.publicUrl;
+
+          }
+
+
+          /* ---------------------------
+             INSERT PROPERTY
+          --------------------------- */
+
+          submitButton.textContent =
+            "Saving property...";
+
+
+          const propertyData = {
+
+            title: title,
+
+            listing_type: listingType,
+
+            property_type: propertyType,
+
+            province: province,
+
+            city: city,
+
+            address: address,
+
+            price: price
+              ? Number(price)
+              : null,
+
+            property_size: propertySize
+              ? Number(propertySize)
+              : null,
+
+            bedrooms: bedrooms
+              ? Number(bedrooms)
+              : null,
+
+            bathrooms: bathrooms
+              ? Number(bathrooms)
+              : null,
+
+            description: description,
+
+            seller_name: sellerName,
+
+            seller_phone: sellerPhone,
+
+            seller_email: sellerEmail,
+
+            status: "published",
+
+            image_url: imageUrl
+
+          };
+
+
+          const {
+            data,
+            error
+          } =
+            await supabaseClient
+              .from("properties")
+              .insert([
+                propertyData
+              ])
+              .select();
+
+
+          if (error) {
+
+            /* Delete uploaded photo if
+               database insert fails */
+
+            if (uploadedFilePath) {
+
+              await supabaseClient
+                .storage
+                .from("property-images")
+                .remove([
+                  uploadedFilePath
+                ]);
+
+            }
+
+            throw error;
+
+          }
+
+
+          /* ---------------------------
+             SUCCESS
+          --------------------------- */
+
+          statusMessage.textContent =
+            "Your property has been successfully published.";
+
+          statusMessage.className =
+            "status success";
+
+
+          form.reset();
+
+          preview.style.display =
+            "none";
+
+          previewImage.src = "";
+
+
+        } catch (error) {
+
+          console.error(error);
+
+
+          statusMessage.textContent =
+            "Could not create the property listing: " +
+            error.message;
+
+          statusMessage.className =
+            "status error";
+
+
+        } finally {
+
+          submitButton.disabled =
+            false;
+
+          submitButton.textContent =
+            "Publish Property";
+
+        }
+
+      }
+    );
+
+  </script>
 
 </body>
 </html>
